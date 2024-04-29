@@ -1,0 +1,10 @@
+---
+- name: provision EC2 instance
+  cloud.terraform.terraform:
+    project_path: 'project/'
+    state: "{{ state }}"
+    force_init: true
+    backend_config:
+      region: "eu-east-2"
+      bucket: "some-bucket"
+      key: "random.tfstate"
