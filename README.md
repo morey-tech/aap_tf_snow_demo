@@ -53,9 +53,6 @@ Implementation diagram:
 
 ---
 
-#### Build the Execution Environment if required
-[execution environment](ansible/execution-env/README.md )
-
 #### Build the demo.
 
 For the demo we need and execution environment, you can find the info on how to create or find  [execution environment here](ansible/execution-env/README.md)
