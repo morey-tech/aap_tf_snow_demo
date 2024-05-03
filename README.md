@@ -53,32 +53,14 @@ Implementation diagram:
 
 ---
 
+#### Build the Execution Environment if required
+[execution environment](ansible/execution-env/README.md )
+
 #### Build the demo.
+
+For the demo we need and execution environment, you can find the info on how to create or find  [execution environment here](ansible/execution-env/README.md)
 
 ###### Steps
 
-
----
-
-#### Appendix
-
-Usefull command to test the Terraform provisioning locally.
-
-* Initialized the current working directory
-    ```
-        terraform init
-    ```
-* Get a preview of what the code will do
-    ```
-    terraform plan -var-file="local.tfvars"
-    ```
-* Apply the desired changes
-    ```
-    terraform apply -var-file="local.tfvars" -auto-approve
-    ```
-* Destroy what you just created
-    ```
-    terraform destroy -var-file="local.tfvars" -auto-approve
-    ```
 
 ---

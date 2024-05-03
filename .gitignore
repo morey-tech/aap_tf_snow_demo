@@ -4,14 +4,15 @@
 .DS_Store
 .env.local
 note.txt
+.env.*
 
 
 ###############
 # Ansible
 ###############
 
-/execution-env/context/
-/execution-env/ansible.cfg
+**/execution-env/context/
+**/execution-env/ansible.cfg
 
 
 /*-artifact-*.json

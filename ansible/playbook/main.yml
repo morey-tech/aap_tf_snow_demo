@@ -1,0 +1,51 @@
+---
+- name: Provision VM in cloud with Terraform
+  hosts: localhost
+  gather_facts: true
+
+  collections:
+    - cloud.terraform
+    
+  tasks: 
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: 'git@github.com:froberge/ansible_terraform_config.git'
+        dest: /tmp/terraform
+        version: main
+        accept_newhostkey: true
+        key_file: "{{ cert_key_file }}"
+
+    # - name: Copy file
+    #   ansible.builtin.copy:
+    #     src: files/test.tf
+    #     dest: /tmp/terraform/test.tf
+
+    - name: Decrypt terraform states files
+      ansible.builtin.expect:
+        command: 'ansible-vault decrypt terraform.tfstate terraform.tfstate.backup terraform.tfvars'
+        chdir: /tmp/terraform/aws
+        responses:
+          password: "{{ pah_pass }}"
+
+    - name: Provision the infra with Terraform
+      cloud.terraform.terraform:
+        project_path: "/tmp/terraform/aws/"
+        state: "present"
+      register: terraformInfra
+
+    - name: Encrypt terraform states files
+      ansible.builtin.expect:
+        command: 'ansible-vault encrypt terraform.tfstate terraform.tfstate.backup terraform.tfvars'
+        chdir: /tmp/terraform/aws
+        responses:
+          password: "{{ pah_pass }}"
+
+    - name: Update git repo with terraform files
+      ansible.builtin.shell: git add -A && git commit -m "Synching new files to repo" && git config --global core.sshCommand 'ssh -i {{ cert_key_file }} -F /dev/null' && git push
+      args:
+        chdir: /tmp/terraform/aws
+      environment:
+        GIT_COMMITTER_NAME: "{{ git_name | default(omit) }}"
+        GIT_COMMITTER_EMAIL: "{{ git_email | default(omit) }}"
+        GIT_AUTHOR_NAME: "{{ git_name | default(omit) }}"
+        GIT_AUTHOR_EMAIL: "{{ git_email | default(omit) }}"

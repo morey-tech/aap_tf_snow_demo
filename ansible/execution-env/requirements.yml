@@ -1,0 +1,8 @@
+---
+collections:
+  - name: amazon.aws
+  - name: azure.azcollection
+  - name: ansible.controller
+  - name: cloud.terraform
+  - name: google.cloud
+  - name: servicenow.itsm
