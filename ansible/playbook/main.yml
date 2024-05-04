@@ -7,13 +7,19 @@
     - cloud.terraform
     
   tasks: 
+    # - name: Git checkout
+    #   ansible.builtin.git:
+    #     repo: 'git@github.com:froberge/ansible_terraform_config.git'
+    #     dest: /tmp/terraform
+    #     version: main
+    #     accept_newhostkey: true
+    #     key_file: "{{ cert_key_file }}"
+
     - name: Git checkout
       ansible.builtin.git:
-        repo: 'git@github.com:froberge/ansible_terraform_config.git'
+        repo: 'https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git'
         dest: /tmp/terraform
         version: main
-        accept_newhostkey: true
-        key_file: "{{ cert_key_file }}"
 
     # - name: Copy file
     #   ansible.builtin.copy:
