@@ -37,8 +37,7 @@
       cloud.terraform.terraform:
         project_path: "/tmp/terraform/aws/"
         state: "present"
-        force_init: true
-        
+        force_init: true        
       register: terraformInfra
 
     - name: Encrypt terraform states files
@@ -49,7 +48,7 @@
           password: "{{ pah_pass }}"
 
     - name: Update git repo with terraform files
-      ansible.builtin.shell: git add -A && git commit -m "Synching new files to repo" && git config --global core.sshCommand 'ssh -i {{ cert_key_file }} -F /dev/null' && git push
+      ansible.builtin.shell: git remote set-url origin https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git && git add -A && git commit -m "Synching new files to repo" && git push
       args:
         chdir: /tmp/terraform/aws
       environment:
