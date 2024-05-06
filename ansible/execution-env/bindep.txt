@@ -1,2 +1,2 @@
 iputils [platform:rpm]
-terraform [platform:rpm]
+terraform [ptaform:rpm]

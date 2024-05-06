@@ -13,6 +13,8 @@ note.txt
 
 **/execution-env/context/
 **/execution-env/ansible.cfg
+**/terraform-exec-env/context/
+**/terraform-exec-env/ansible.cfg
 
 
 /*-artifact-*.json
