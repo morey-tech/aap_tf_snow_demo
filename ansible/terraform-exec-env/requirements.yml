@@ -1,0 +1,6 @@
+---
+collections:
+  - name: cloud.terraform
+  # - name: cloud.terraform
+  #   type: git
+  #   source: https://github.com/ansible-collections/cloud.terraform.git
