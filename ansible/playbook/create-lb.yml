@@ -1,0 +1,34 @@
+---
+- name: Configure LB in AWS
+  hosts: all
+  gather_facts: false
+
+  tasks:
+  
+  - name: Configure HA lb with haproxy
+    block: 
+        # epel = Extra Packkages for Enterprise Linux
+      - name: Ensure the epel repo is present
+        yum:
+          name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+          disable_gpg_check: yes
+          state: present
+
+      - name: install haproxy
+        package:
+          name: haproxy
+          state: present
+
+      - name: copy haproxy conf
+        template:
+         src: templates/haproxy.cfg.j2
+         dest: /etc//haproxy/haproxy.cfg
+
+      - name: start and enable haproxy
+        service:
+          name: haproxy
+          state: started
+          enabled: true
+    # when: "'tag_AWS_dev_lb' in group_names"
+
+
