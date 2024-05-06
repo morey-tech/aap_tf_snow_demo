@@ -1,11 +1,8 @@
 ---
 - name: Provision VM in cloud with Terraform
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
 
-  collections:
-    - cloud.terraform
-    
   tasks: 
     # - name: Git checkout
     #   ansible.builtin.git:
@@ -20,11 +17,6 @@
         repo: 'https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git'
         dest: /tmp/terraform
         version: main
-
-    # - name: Copy file
-    #   ansible.builtin.copy:
-    #     src: files/test.tf
-    #     dest: /tmp/terraform/test.tf
 
     - name: Decrypt terraform states files
       ansible.builtin.expect:
