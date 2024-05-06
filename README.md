@@ -57,6 +57,23 @@ Implementation diagram:
 
 For the demo we need and execution environment, you can find the info on how to create or find  [execution environment here](ansible/execution-env/README.md)
 
+##### Preparation work.
+
+###### AWS
+* Ansible connects to EC2 instance using SSH. Let's start by creation a new [Key pair in AWS](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/getstarted-keypair.html). 
+
+* Create key pair, call `ansible_terraform_demo`
+![create-key-pair](docs/images/create-key-pair.png)
+:warning: if you change the name you need to edit the terraform main  file with the new name.
+
+* Create a credential in AAP which contains the SSH key for the user `ec2-user`
+![create_credential_ssh_aws](docs/images/create-credential-ssh-aws.png)
+
+
+###### Azure
+
+
+
 ###### Steps
 
 
