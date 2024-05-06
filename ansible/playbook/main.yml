@@ -37,6 +37,8 @@
       cloud.terraform.terraform:
         project_path: "/tmp/terraform/aws/"
         state: "present"
+        force_init: true
+        
       register: terraformInfra
 
     - name: Encrypt terraform states files
