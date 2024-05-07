@@ -1,8 +1,8 @@
 ---
 - name: "JBoss EAP installation and configuration"
   hosts: "{{ hosts_group_name | default('localhost') }}"
-  become: yes
-
+#  become: yes
+  become_method: sudo
   vars:
     eap_install_workdir: '/opt'
     eap_version: '7.4.0'
