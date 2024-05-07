@@ -44,7 +44,7 @@
 2. Build the execution image
 
     1. Navigate to the execution-environment folder
-    _~github/froberge/ansible_terraform_demo/ansible_terraform_cloud_vm_deployment/ansible/execution-env_
+    _~github/froberge/ansible_terraform_demo/ansible_terraform_cloud_vm_deployment/ansible/exec-environment_
     1. Define the build version we want to start with in a variable.
         ```
         buildVersion=0.1
@@ -52,23 +52,23 @@
 
     1. Now lets build the image
         ```
-        ansible-builder build -v 3 -t ansible-terraform-all:latest
+        ansible-builder build -v 3 -t ansible-terraform-demo:latest
         ```
     1. Let's tag the images, one tag with the version one with latest. ( in this command I use my quay registry, change for your location.)
 
         ```
-        podman tag ansible-terraform-all:latest quay.io/froberge/ansible-terraform-all:latest
+        podman tag ansible-terraform-demo:latest quay.io/froberge/ansible-terraform-demo:latest
         ```
         ```
-        podman tag ansible-terraform-all:latest quay.io/froberge/ansible-terraform-all:${buildVersion}
+        podman tag ansible-terraform-demo:latest quay.io/froberge/ansible-terraform-demo:${buildVersion}
         ```
     1. Now push the 2 images to the registry
         ```
-        podman push quay.io/froberge/ansible-terraform-all:latest
+        podman push quay.io/froberge/ansible-terraform-demo:latest
         ```
 
         ```
-        podman push quay.io/froberge/ansible-terraform-all:${buildVersion}
+        podman push quay.io/froberge/ansible-terraform-demo:${buildVersion}
         ```
 ---
 

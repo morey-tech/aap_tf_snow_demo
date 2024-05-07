@@ -13,7 +13,6 @@ dependencies:
   python:
     - six
     - psutil
-    # - pexpect
   system: bindep.txt
 
 images:
@@ -31,6 +30,7 @@ additional_build_steps:
   append_base:
     - RUN microdnf install yum-utils && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo && microdnf install terraform
     - RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo' && microdnf install azure-cli
+    - RUN microdnf install yum && yum install -y sudo
 
   prepend_galaxy:
     - ADD _build/configs/ansible.cfg ~/.ansible.cfg

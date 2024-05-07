@@ -1,8 +1,8 @@
 ---
 - name: "JBoss EAP installation and configuration"
-  hosts: all
-#  become: yes
-  become_method: sudo
+  hosts: "{{ hosts_group_name | default('localhost') }}"
+  become: yes
+
   vars:
     eap_install_workdir: '/opt'
     eap_version: '7.4.0'
@@ -36,7 +36,6 @@
         service_systemd_env_file: "/etc/eap-{{ item }}.conf"
         service_systemd_conf_file: "/usr/lib/systemd/system/jboss-eap-{{ item }}.service"
       loop: "{{ range(0,3) | list }}"
-      when: "'tag_AWS_dev_web' in group_names"
   post_tasks:
 
     - set_fact:
