@@ -66,6 +66,7 @@ defaults
 #---------------------------------------------------------------------
 frontend main
     bind *:80
+    mode http
     default_backend             app
     option http-server-close
     option forwardfor
@@ -85,4 +86,3 @@ backend app
     {% for host in groups['tag_AWS_dev_web'] %}
     server app{{ loop.index }} {{ host }}:80 check
     {% endfor %}
- 
