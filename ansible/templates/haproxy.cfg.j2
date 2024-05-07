@@ -83,6 +83,6 @@ backend static
 backend app
     balance     roundrobin
     {% for host in groups['tag_AWS_dev_web'] %}
-    server {{ hostvars[host]['ansible_hostname'] }} {{ host }}:80 check
+    server {{ loop.index }} {{ host }}:80 check
     {% endfor %}
  
