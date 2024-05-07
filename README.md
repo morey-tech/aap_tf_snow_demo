@@ -77,4 +77,6 @@ For the demo we need and execution environment, you can find the info on how to 
 ###### Steps
 
 
+1. Configure [AWS dynamic inventory](https://www.redhat.com/en/blog/configuring-an-aws-dynamic-inventory-with-automation-controller)
+
 ---
