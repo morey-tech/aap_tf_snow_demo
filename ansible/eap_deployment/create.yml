@@ -1,9 +1,9 @@
 ---
 - name: Configure JBoss EAP Server
   hosts: all
-  become: true
-  become_method: sudo
-  become_user: ec2-user
+  # become: true
+  # become_method: sudo
+  # # become_user: ec2-user
 
   roles:
     - jboss-eap-install
