@@ -80,5 +80,4 @@ For the demo we need and execution environment, you can find the info on how to 
 1. Configure [AWS dynamic inventory](https://www.redhat.com/en/blog/configuring-an-aws-dynamic-inventory-with-automation-controller)
 
 
-1. Create a credential Type for Red Hat Service Account
 ---

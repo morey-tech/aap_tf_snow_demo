@@ -84,5 +84,5 @@ backend static
 backend app
     balance     roundrobin
     {% for host in groups['tag_AWS_dev_web'] %}
-    server app{{ loop.index }} {{ host }}:80 check
+    server app{{ loop.index }} {{ host }}:8080 check
     {% endfor %}
