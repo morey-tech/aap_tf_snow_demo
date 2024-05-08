@@ -1,6 +1,6 @@
 ---
 - name: "JBoss EAP installation and configuration"
-  hosts: "{{ hosts_group_name | default('localhost') }}"
+  hosts: all
 #  become: yes
   become_method: sudo
   vars:
