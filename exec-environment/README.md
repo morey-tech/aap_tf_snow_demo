@@ -48,7 +48,7 @@
     1. Move into the folder of the executaion environment you would like to build.
     1. Define the build version we want to start with in a variable.
         ```
-        buildVersion=0.1
+        buildVersion=[add version]
         ```
 
     1. Now lets build the image
