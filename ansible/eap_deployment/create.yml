@@ -3,7 +3,7 @@
   hosts: all
   become: true
   become_method: sudo
-  become_user: root
+  become_user: ec2-user
 
   roles:
     - jboss-eap-install
