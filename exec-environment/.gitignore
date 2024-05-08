@@ -6,9 +6,5 @@
 note.txt
 .env.*
 
-
-###############
-# Ansible
-###############
-
-/*-artifact-*.json
+**/context/
+**/ansible.cfg

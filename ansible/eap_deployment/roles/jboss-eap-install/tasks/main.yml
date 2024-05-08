@@ -1,0 +1,120 @@
+---
+# tasks file for jboss-eap-install
+- name: Install JBoss Requirements
+  ansible.builtin.dnf:
+    name: java-1.8.0-openjdk-devel, unzip, initscripts, hostname
+    state: present
+
+- name: Check if service exists
+  stat: path=/etc/init.d/jboss-eap-rhel.sh
+  register: service_status
+
+- name: Ensure EAP service is stopped
+  when: service_status.stat.exists
+  ignore_errors: true
+  service:
+    name: jboss-eap-rhel
+    state: stopped
+
+- name: Create JBoss EAP Group
+  group:
+    name: "{{ jboss_eap_group }}"
+    system: yes
+    state: present
+    gid: "{{ jboss_eap_group_gid | default('400') }}"
+
+- name: Create JBoss EAP User
+  user:
+    name: "{{ jboss_eap_user }}"
+    comment: "JBoss EAP User"
+    uid: "{{ jboss_eap_user_uid | default('400') }}"
+    group: "{{ jboss_eap_group }}"
+    home: "{{ eap_deploy_dir }}"
+
+- name: Clean EAP directory
+  file:
+    state: absent
+    path: "{{ eap_home }}"
+
+- name: Remove EAP directories (for different versions)
+  file:
+    state: absent
+    path: "{{ eap_all }}"
+
+- name: "Obtains JBoss repository"
+  get_url:
+    url: "{{ eap_link }}"
+    dest: "{{ eap_deploy_dir }}"
+
+- name: Unarchive EAP
+  unarchive:
+    src:  "{{ eap_deploy_dir }}/{{ eap_archive }}"
+    dest: "{{ eap_deploy_dir }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    remote_src: yes
+
+- name: Clear JBoss Zip File
+  file:
+    state: absent
+    path: "{{ eap_deploy_dir }}/{{ eap_archive }}"
+
+- name: Create symlink
+  file:
+    src: "{{eap_home}}"
+    dest: "/opt/jboss-eap"
+    state: link
+
+- name: Modify JBoss EAP Configuration File
+  lineinfile:
+    state: present
+    path: "{{ eap_home }}/bin/init.d/jboss-eap.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items: 
+    - {regexp: "^# JBOSS_USER=", line: "JBOSS_USER=jboss-eap"}
+    - {regexp: "^# JBOSS_CONFIG=", line: "JBOSS_CONFIG=standalone-ha.xml"}
+    - {regexp: "^# JBOSS_OPTS=", line: "JBOSS_OPTS=\"-b 0.0.0.0 -bprivate `hostname -i` -Djboss.node.name={{ inventory_hostname }}\""}
+    
+- name: Copy JBoss Service Configuration File
+  copy:
+    src: "{{ eap_home }}/bin/init.d/jboss-eap.conf"
+    dest: "{{ jboss_eap_service_conf_dir }}/"
+    remote_src: True
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    
+- name: Copy JBoss EAP Service File
+  copy:
+    src: "{{ eap_home }}/bin/init.d/jboss-eap-rhel.sh"
+    dest: "{{ rhel_initd }}"
+    remote_src: True
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: 0755
+
+- name: Enable EAP service
+  service:
+    name: jboss-eap-rhel.sh
+    enabled: yes 
+
+- name: Start EAP service
+  service:
+    name: jboss-eap-rhel
+    state: started
+
+- name: Create Admin Users froberge on each application
+  command: "sh {{ eap_home }}/bin/add-user.sh froberge password"
+
+- name: Ensures webapp War file has been retrieved from the url
+  get_url:
+    url: "{{ app_url }}"
+    dest: "{{ eap_deploy_dir }}"
+
+- name: Deploy the war file on each standalone server (replace if deployed)
+  command: "sh {{ eap_home }}/bin/jboss-cli.sh -u=froberge -p=password --controller=localhost:9990 --connect --command='deploy {{ eap_deploy_dir }}/{{ app_name }} --force'"
+
+- name: Clear JBoss Zip File
+  file:
+    state: absent
+    dest: "{{ eap_deploy_dir }}/{{ app_name }}"

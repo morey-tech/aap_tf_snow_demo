@@ -1,0 +1,10 @@
+---
+- name: Configure JBoss EAP Server
+  hosts: all
+  become: true
+  become_method: sudo
+  become_user: root
+  become_ask_pass: false
+
+  roles:
+    - jboss-eap-install

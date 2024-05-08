@@ -43,8 +43,9 @@
 
 2. Build the execution image
 
-    1. Navigate to the execution-environment folder
-    _~github/froberge/ansible_terraform_demo/ansible_terraform_cloud_vm_deployment/ansible/exec-environment_
+    1. Navigate to the execution-environment folder.
+    _~github/froberge/ansible_terraform_demo/ansible_terraform_cloud_vm_deployment/exec-environment_
+    1. Move into the folder of the executaion environment you would like to build.
     1. Define the build version we want to start with in a variable.
         ```
         buildVersion=0.1
