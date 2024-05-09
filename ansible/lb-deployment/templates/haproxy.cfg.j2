@@ -84,5 +84,5 @@ frontend main
 backend app
     balance     roundrobin
     {% for host in groups['tag_AWS_dev_web'] %}
-    server app{{ loop.index }} {{ host }}:8080 check
+    server {{ hostvars[host]['ansible_hostname'] }} {{ host }}:8080 check
     {% endfor %}

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+
+    - name: Confirm that 200 OK response is returned
+      uri:
+        url: "http://{{ ansible_host }}:80"
+        validate_certs: no
+        status_code: 200
