@@ -74,9 +74,9 @@ frontend main
 #---------------------------------------------------------------------
 # static backend for serving up images, stylesheets and such
 #---------------------------------------------------------------------
-backend static
-    balance     roundrobin
-    server      static 127.0.0.1:4331 check
+#backend static
+#    balance     roundrobin
+#    server      static 127.0.0.1:4331 check
 
 #---------------------------------------------------------------------
 # round robin balancing between the various backends
