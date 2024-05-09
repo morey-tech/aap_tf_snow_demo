@@ -28,8 +28,9 @@
     - name: Provision the infra with Terraform
       cloud.terraform.terraform:
         project_path: "/tmp/terraform/aws/"
+        # For a destroy we need this to be absent and false
         state: "{{ infra_state }}"
-        force_init: true        
+        force_init: "{{ force_init }}"        
       register: terraformInfra
 
     - name: Encrypt terraform states files
