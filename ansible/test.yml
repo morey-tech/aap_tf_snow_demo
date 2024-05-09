@@ -7,11 +7,11 @@
         url: "http://{{ ansible_host }}:80"
         validate_certs: no
         status_code: 200
-    when: "'tag_AWS_dev_lb' in group_names"
+      when: "'tag_AWS_dev_lb' in group_names"
 
     - name: Confirm that the web server return a 200 code
       uri:
         url: "http://{{ ansible_host }}:8080"
         validate_certs: no
         status_code: 200
-    when: "'tag_AWS_dev_web' in group_names"
+      when: "'tag_AWS_dev_web' in group_names"
