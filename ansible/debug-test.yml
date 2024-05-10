@@ -2,10 +2,11 @@
 - hosts: localhost
 
   vars:
+    customs_credential:
       username: '{{ git_user }}'
       password: '{{ git_token }}'
       pah_pass: '{{ pah_pas }}'
 
   tasks:
     - debug:
-        var: vars
+        var: customs_credential
