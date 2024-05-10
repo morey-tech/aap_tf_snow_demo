@@ -2,11 +2,11 @@
 - hosts: localhost
 
   vars:
-    demo-github-vault:
+    custom_credential:
       username: '{{ lookup("env", "git_user") }}'
       password: '{{ lookup("env", "git_token") }}'
       pah_pass: '{{ lookup("env", "pah_pas") }}'
 
   tasks:
     - debug:
-        var: ansibledemo-github-vault
+        var: custom_credential
