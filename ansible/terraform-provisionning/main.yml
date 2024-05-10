@@ -4,10 +4,9 @@
   gather_facts: false
 
   vars:
-    custom_credential:
-      git_user: '{{ lookup("env", "git_user") }}'
-      git_token: '{{ lookup("env", "git_token") }}'
-      pah_pass: '{{ lookup("env", "pah_pass") }}'
+    git_user: '{{ lookup("env", "git_user") }}'
+    git_token: '{{ lookup("env", "git_token") }}'
+    pah_pass: '{{ lookup("env", "pah_pass") }}'
 
   tasks: 
     - name: Git checkout
