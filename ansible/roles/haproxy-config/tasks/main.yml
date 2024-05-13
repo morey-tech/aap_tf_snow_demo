@@ -16,8 +16,8 @@
   template:
     src: templates/haproxy.cfg.j2
     dest: /etc//haproxy/haproxy.cfg
-  vars:
-    ws_name_tag: "{{ ws_name_tag }}"
+    with_items: 
+      - { ws_name_tag: "{{ ws_name_tag }}" }
 
 - name: start and enable haproxy
   service:
