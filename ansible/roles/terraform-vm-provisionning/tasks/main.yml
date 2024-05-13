@@ -3,21 +3,22 @@
 - name: Git checkout
   ansible.builtin.git:
 #    repo: 'https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git'
-    repo: "{{ git_repo_url }}"
+    repo: '{{ git_repo_url }}'
     dest: /tmp/terraform
     version: main
 
 - name: Decrypt terraform states files
   ansible.builtin.expect:
     command: 'ansible-vault decrypt terraform.tfstate terraform.tfstate.backup terraform.tfvars'
-    # chdir: /tmp/terraform/{{ cloud_provider }}
+    # chdir: /tmp/terraform/aws
+    chdir: "{{ git_work_dir }}" 
     responses:
       password: "{{ pah_pass }}"
 
 - name: Provision the infra with Terraform
   cloud.terraform.terraform:
-    # project_path: "/tmp/terraform/{{ cloud_provider }}/"
-    project_path: "/tmp/terraform/"    
+    # project_path: "/tmp/terraform/aws"
+    project_path: "{{ git_work_dir }}"
     # For a destroy we need this to be absent and false
     state: "{{ infra_state }}"
     force_init: "{{ force_init }}"        
@@ -26,15 +27,16 @@
 - name: Encrypt terraform states files
   ansible.builtin.expect:
     command: 'ansible-vault encrypt terraform.tfstate terraform.tfstate.backup terraform.tfvars'
-    # chdir: /tmp/terraform/{{ cloud_provider }}
+    # chdir: /tmp/terraform/aws
+    chdir: "{{ git_work_dir }}"
     responses:
       password: "{{ pah_pass }}"
 
 - name: Update git repo with terraform files
-  # ansible.builtin.shell: git remote set-url origin https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git && git add -A && git commit -m "Synching new files to repo" && git push
-  ansible.builtin.shell: git remote set-url origin {{ git_repo_url }} && git add -A && git commit -m "Synching new files to repo" && git push
-  # args:
-  #   chdir: /tmp/terraform/{{ cloud_provider }}
+  ansible.builtin.shell: git remote set-url origin https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git && git add -A && git commit -m "Synching new files to repo" && git push
+  args:
+    chdir: "{{ git_work_dir }}"
+    # chdir: /tmp/terraform/aws
   environment:
     GIT_COMMITTER_NAME: "{{ git_name | default(omit) }}"
     GIT_COMMITTER_EMAIL: "{{ git_email | default(omit) }}"
