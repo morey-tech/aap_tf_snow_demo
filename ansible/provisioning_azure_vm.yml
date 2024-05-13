@@ -6,3 +6,5 @@
     - role: azure-vm-provisionning
       vars:
         instance_name: "webserver"
+        project_name: "Ansible_Terraform_Demo"
+        res_group: "ansible_demo"

@@ -1,7 +1,9 @@
 ---
 # vars file for azure-vm-provisionning
 vm_name: "{{ instance_name }}"
-res_group: "ansible_demo"
+project_name: "{{ project_name }}"
+res_group: "{{ res_group }}"
+owner: froberge
 res_group_location: eastus
 storage_class: Standard_LRS
 virtual_network_cidr: 10.0.0.0/24
