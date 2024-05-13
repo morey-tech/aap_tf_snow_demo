@@ -1,4 +1,5 @@
 ---
+# tasks file for haproxy-config
 - name: Configure HA Load Balancer with haproxy
   block: 
       # epel = Extra Packages for Enterprise Linux
