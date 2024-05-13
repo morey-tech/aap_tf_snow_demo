@@ -5,4 +5,4 @@
   roles:
     - role: azure-vm-provisionning
       vars:
-        instance_name: "demo_ws_server"
+        instance_name: "webserver"
