@@ -5,4 +5,4 @@
   roles:
     - role: haproxy-config
       vars:
-        lb_group_name: {{ lb_group_name }}"
+        lb_group_name: {{ lb_group_name }}
