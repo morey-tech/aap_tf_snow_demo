@@ -3,4 +3,6 @@
   hosts: tag_AWS_dev_lb
 
   roles:
-    - haproxy-config
+    - role: haproxy-config
+      vars:
+        ws_name_tag: "{{ ws_name_tag }}"
