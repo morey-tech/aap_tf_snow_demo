@@ -83,7 +83,6 @@ frontend main
 #---------------------------------------------------------------------
 backend app
     balance     roundrobin
-    {% set group = lookup('env', 'ws_name_tag') %}
-    {% for host in groups[ group ] %}
+    {% for host in groups[ 'tag_AWS_dev_web' ] %}
     server app{{ loop.index }} {{ host }}:8080 check
     {% endfor %}
