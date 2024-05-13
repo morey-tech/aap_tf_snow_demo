@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Test connection to the vm with a curl
+  hosts: all
   tasks:
 
     - name: Confirm that the load balancer return a 200 code
