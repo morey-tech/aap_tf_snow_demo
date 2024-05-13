@@ -1,5 +1,5 @@
 ---
-# vars file for jboss-eap-install
+# vars file for jboss-eap-config
 jboss_eap_user: jboss-eap
 jboss_eap_group: jboss-eap
 eap_deploy_dir: /opt
