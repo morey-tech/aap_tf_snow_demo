@@ -1,6 +1,6 @@
 ---
-- name: Configure JBoss EAP Server
+- name: Configure haproxy Load Balancer
   hosts: tag_AWS_dev_lb
-  
+
   roles:
     - haproxy-config
