@@ -83,6 +83,6 @@ frontend main
 #---------------------------------------------------------------------
 backend app
     balance     roundrobin
-    {% for host in groups["nodes"] %}
+    {% for host in hosts %}
     server app{{ loop.index }} {{ host }}:8080 check
     {% endfor %}
