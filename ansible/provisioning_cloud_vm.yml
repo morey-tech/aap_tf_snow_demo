@@ -7,7 +7,7 @@
       vars:
         infra_state: "{{ infra_state }}"
         force_init: "{{ force_init }}"
-        cloud_provider: "{{ cloud_provider }}"
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
+        git_repo_url: "{{ git_repo_url }}"
         pah_pass: '{{ lookup("env", "pah_pass") }}'
