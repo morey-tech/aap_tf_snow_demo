@@ -1,0 +1,9 @@
+---
+- name: Provision VM in AWS with Terraform
+  hosts: localhost
+
+  roles:
+    - role: terraform-provisionning
+      vars:
+        infra_state: "{{ infra_state }}"
+        force_init: "{{ force_init }}"

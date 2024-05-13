@@ -1,0 +1,6 @@
+---
+- name: Configure JBoss EAP Server
+  hosts: tag_AWS_dev_web
+
+  roles:
+    - jboss-eap-config

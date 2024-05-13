@@ -3,4 +3,4 @@
   hosts: tag_AWS_dev_web
 
   roles:
-    - jboss-eap-install
+    - haproxy-config

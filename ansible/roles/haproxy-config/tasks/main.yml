@@ -1,5 +1,5 @@
 ---
-- name: Configure LB in AWS
+- name: Configure LB
   hosts: all
   gather_facts: false
 
@@ -7,7 +7,7 @@
   
   - name: Configure HA lb with haproxy
     block: 
-        # epel = Extra Packkages for Enterprise Linux
+        # epel = Extra Packages for Enterprise Linux
       - name: Ensure the epel repo is present
         yum:
           name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -30,5 +30,3 @@
           state: started
           enabled: true
     when: "'tag_AWS_dev_lb' in group_names"
-
-
