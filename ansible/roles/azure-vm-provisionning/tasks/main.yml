@@ -131,7 +131,7 @@
       Name: "{{ instance_name }}"
       Owner: "{{ owner }}" 
       project: "{{ project_name }}"
-      azure: "dev_lb"
+      type: "dev_lb"
     image:
       offer: RHEL
       publisher: RedHat
