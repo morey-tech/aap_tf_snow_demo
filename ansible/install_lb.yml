@@ -1,6 +1,8 @@
 ---
-- name: Configure haproxy Load Balancer
-  hosts: tag_AWS_dev_lb
+- name: Configure Haproxy Load Balancer
+  hosts: all
 
   roles:
-    - haproxy-config
+    - role: haproxy-config
+      vars:
+        lb_group_name: {{ lb_group_name }}"

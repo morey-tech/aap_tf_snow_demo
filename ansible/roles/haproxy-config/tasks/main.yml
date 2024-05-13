@@ -1,24 +1,26 @@
 ---
-# tasks file for haproxy-config
-  # epel = Extra Packages for Enterprise Linux
-- name: Ensure the epel repo is present
-  yum:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    disable_gpg_check: yes
-    state: present
+- name: Configure HA Load Balancer with haproxy
+  block: 
+      # epel = Extra Packages for Enterprise Linux
+    - name: Ensure the epel repo is present
+      yum:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        disable_gpg_check: yes
+        state: present
 
-- name: install haproxy
-  package:
-    name: haproxy
-    state: present
+    - name: install haproxy
+      package:
+        name: haproxy
+        state: present
 
-- name: copy haproxy conf
-  template:
-    src: templates/haproxy.cfg.j2
-    dest: /etc//haproxy/haproxy.cfg
+    - name: copy haproxy conf
+      template:
+        src: templates/haproxy.cfg.j2
+        dest: /etc//haproxy/haproxy.cfg
 
-- name: start and enable haproxy
-  service:
-    name: haproxy
-    state: started
-    enabled: true
+    - name: start and enable haproxy
+      service:
+        name: haproxy
+        state: started
+        enabled: true
+  when: "{{ lb_group_name }} in group_names"
