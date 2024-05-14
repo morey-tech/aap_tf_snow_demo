@@ -135,15 +135,3 @@
       version: latest
   loop: "{{ instance_name_list }}"
   register: vm_result
-
-- name: Wait for SSH connectivity
-  wait_for:
-    host: "{{ publicip_result.state.ip_address }}"
-    port: 22
-    delay: 10
-    timeout: 300
-    state: started
-
-- name: Print SSH connection information
-  debug:
-    msg: "SSH connection to {{ default_username }}@{{ publicip_result.state.ip_address }}"
