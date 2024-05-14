@@ -12,7 +12,7 @@
         project_name: "{{ project_name }}"
         res_group: "{{res_group }}"
         vm_tag_type: "dev_lb"
-      when: not create_load_balancer|bool 
+      when: create_load_balancer|bool 
 
     # - role: azure-vm-provisionning
     #   vars:
