@@ -79,10 +79,6 @@
   loop: "{{ instance_name_list }}"
   register: publicip_result
 
-- name: Debug publicip_result
-  debug:
-    var: publicip_result.state.ip_address
-
 - name: Create NIC (Network Interface Card ) for RHEL VM
   azure_rm_networkinterface:
     client_id: "{{ azure_client_id }}"
@@ -104,7 +100,7 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "lrs_{{ instance_name_prefix }}"
+    name: "lrs{{ instance_name_prefix }}"
     type: "{{ storage_class }}"
 
 - name: Create RHEL VM - Latest release available
@@ -117,8 +113,8 @@
     name: "{{ item }}"
     vm_size: "{{ vm_size }}"
     managed_disk_type: "{{ storage_class }}"
-    storage_account: "lrs_{{ instance_name_prefix }}"
-    storage_container: "vms_{{instance_name_prefix}}"
+    storage_account: "lrs{{ instance_name_prefix }}"
+    storage_container: "vms{{instance_name_prefix}}"
     storage_blob: "instance_name_prefix.vhd"
     admin_username: "{{ default_username }}"
     admin_password: "{{ default_password }}"
