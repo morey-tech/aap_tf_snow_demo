@@ -12,12 +12,12 @@
         project_name: "{{ project_name }}"
         res_group: "{{res_group }}"
         vm_tag_type: "dev_lb"
-      when: "{{ create_load_balancer }}"
+      when: create_load_balancer|bool
 
-    - role: azure-vm-provisionning
-      vars:
-        instance_name: "{{ instance_name }}"
-        instance_name_list: "{{ instance_name_list }}"
-        project_name: "{{ project_name }}"
-        res_group: "{{res_group }}"
-        vm_tag_type: "{{vm_tag_type}}"
+    # - role: azure-vm-provisionning
+    #   vars:
+    #     instance_name: "{{ instance_name }}"
+    #     instance_name_list: "{{ instance_name_list }}"
+    #     project_name: "{{ project_name }}"
+    #     res_group: "{{res_group }}"
+    #     vm_tag_type: "{{vm_tag_type}}"
