@@ -93,12 +93,7 @@
     name: "nic_{{ item }}"
     virtual_network: "vn_{{ instance_name_prefix }}"
     subnet: "sn_{{ instance_name_prefix }}"
-    ip_configurations:
-    - name: "primary"
-      public_ip_name: "pbi_{{ item }}"
-      private_ip_address: "{{ ip_address }}"
-      private_ip_allocation_method: "Static"
-      primary: "yes"
+    public_ip_name: "pbi_{{ item }}"
     security_group: "sg_{{ instance_name_prefix }}"
   loop: "{{ instance_name_list }}"
 
