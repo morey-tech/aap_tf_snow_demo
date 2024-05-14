@@ -76,8 +76,7 @@
     resource_group: "{{ res_group }}"
     allocation_method: Static
     name: "pbip_{{ item }}"
-  loop:
-    - "{{ instance_name_list }}"
+  loop: "{{ instance_name_list }}"
   register: publicip_result
 
 - name: Debug publicip_result
@@ -101,8 +100,7 @@
       private_ip_allocation_method: "Static"
       primary: "yes"
     security_group: "sg_{{ instance_name_prefix }}"
-  loop:
-    - "{{ instance_name_list }}"
+  loop: "{{ instance_name_list }}"
 
 - name: Create storage account
   azure_rm_storageaccount:
@@ -144,8 +142,7 @@
       publisher: RedHat
       sku: '9_0'
       version: latest
-  loop:
-    - "{{ instance_name_list }}"
+  loop: "{{ instance_name_list }}"
   register: vm_result
 
 - name: Wait for SSH connectivity

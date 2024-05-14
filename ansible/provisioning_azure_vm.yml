@@ -6,7 +6,7 @@
     - role: azure-vm-provisionning
       vars:
         instance_name: "{{ instance_name }}"
-        instance_name_list: "{{instance_name_list }}"
+        instance_name_list: "{{ instance_name_list }}"
         project_name: "{{ project_name }}"
         res_group: "{{res_group }}"
         vm_tag_type: "{{vm_tag_type}}"
