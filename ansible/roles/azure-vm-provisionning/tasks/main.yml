@@ -128,7 +128,7 @@
     network_interfaces: "nic01{{vm_name}}"
     ssh_pubic_keys:
       - path: /home/adminUser/.ssh/authorized_keys
-        key_data: "{{ lookup('env','id_azure.pub') }}"
+        key_data: "{{ lookup('env', 'ssh_public_key')}}"
     tags: 
       Name: "{{ instance_name }}"
       Owner: "{{ owner }}" 
