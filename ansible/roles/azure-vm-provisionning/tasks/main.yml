@@ -128,7 +128,7 @@
     network_interfaces: "nic01{{vm_name}}"
     ssh_public_keys:
       - path: /home/{{ default_username }}/.ssh/authorized_keys
-        key_data: "{{ lookup('env', 'ssh_public_key')}}"
+        key_data: "{{ lookup('env', 'AZURE_VM_SSH_PUBLIC_KEY')}}"
     tags: 
       Name: "{{ instance_name }}"
       Owner: "{{ owner }}" 
