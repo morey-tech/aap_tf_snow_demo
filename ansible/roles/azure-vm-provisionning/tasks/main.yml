@@ -43,7 +43,6 @@
     virtual_network: "vn{{ vm_name }}"
   register: subnet_result
 
-
 - name: Create public ip for RHEL VM
   azure_rm_publicipaddress:
     client_id: "{{ azure_client_id }}"
