@@ -126,7 +126,7 @@
     admin_username: "{{ default_username }}"
     admin_password: "{{ default_password }}"
     network_interfaces: "nic01{{vm_name}}"
-    ssh_pubic_keys:
+    ssh_public_keys:
       - path: /home/adminUser/.ssh/authorized_keys
         key_data: "{{ lookup('env', 'ssh_public_key')}}"
     tags: 
