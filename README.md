@@ -72,7 +72,7 @@ For the demo we need and execution environment, you can find the info on how to 
 
 ###### Azure
 
-
+create the credential local and in AAP
 
 ###### Steps
 

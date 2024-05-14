@@ -10,16 +10,6 @@
     name: "{{ res_group }}"
     location: "{{ res_group_location }}"
 
-- name: Create storage account
-  azure_rm_storageaccount:
-    client_id: "{{ azure_client_id }}"
-    tenant: "{{ azure_tenant }}"
-    subscription_id: "{{ azure_subscription_id }}"
-    secret: "{{ azure_secret }}"
-    resource_group: "{{ res_group }}"
-    name: "lrs{{ vm_name }}"
-    type: "{{ storage_class }}"
-
 - name: Create virtual network
   azure_rm_virtualnetwork:
     client_id: "{{ azure_client_id }}"
@@ -27,7 +17,7 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "vn{{ vm_name }}"
+    name: "vn_{{ instance_name_prefix }}"
     address_prefixes: "{{virtual_network_cidr}}"
   register: vnet_result
 
@@ -38,25 +28,10 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "sn{{ vm_name }}"
+    name: "sn_{{ instance_name_prefix }}"
     address_prefix: "{{virtual_network_cidr}}"
-    virtual_network: "vn{{ vm_name }}"
+    virtual_network: "vn_{{ instance_name_prefix }}"
   register: subnet_result
-
-- name: Create public ip for RHEL VM
-  azure_rm_publicipaddress:
-    client_id: "{{ azure_client_id }}"
-    tenant: "{{ azure_tenant }}"
-    subscription_id: "{{ azure_subscription_id }}"
-    secret: "{{ azure_secret }}"
-    resource_group: "{{ res_group }}"
-    allocation_method: Static
-    name: "pbi01{{ vm_name }}"
-  register: publicip_result
-
-- name: Debug publicip_result
-  debug:
-    var: publicip_result.state.ip_address
 
 - name: Create security group that allows incoming traffic on SSH/HTTP/HTTPS/8080
   azure_rm_securitygroup:
@@ -65,7 +40,7 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "sg{{vm_name}}"
+    name: "sg_{{instance_name_prefix}}"
     rules:
       - name: SSH
         protocol: Tcp
@@ -92,23 +67,52 @@
         priority: 105
         direction: Inbound
 
-- name: Create NIC for RHEL VM
+- name: Create public ip for RHEL VM
+  azure_rm_publicipaddress:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    resource_group: "{{ res_group }}"
+    allocation_method: Static
+    name: "pbip_{{ item }}"
+  loop:
+    - "{{ instance_name_list }}"
+  register: publicip_result
+
+- name: Debug publicip_result
+  debug:
+    var: publicip_result.state.ip_address
+
+- name: Create NIC (Network Interface Card ) for RHEL VM
   azure_rm_networkinterface:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "nic01{{ vm_name }}"
-    virtual_network: "vn{{ vm_name }}"
-    subnet: "sn{{ vm_name }}"
+    name: "nic_{{ item }}"
+    virtual_network: "vn_{{ instance_name_prefix }}"
+    subnet: "sn_{{ instance_name_prefix }}"
     ip_configurations:
     - name: "primary"
-      public_ip_name: "pbi01{{ vm_name }}"
+      public_ip_name: "pbi_{{ item }}"
       private_ip_address: "{{ ip_address }}"
       private_ip_allocation_method: "Static"
       primary: "yes"
-    security_group: "sg{{ vm_name }}"
+    security_group: "sg_{{ instance_name_prefix }}"
+  loop:
+    - "{{ instance_name_list }}"
+
+- name: Create storage account
+  azure_rm_storageaccount:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    resource_group: "{{ res_group }}"
+    name: "lrs_{{ instance_name_prefix }}"
+    type: "{{ storage_class }}"
 
 - name: Create RHEL VM - Latest release available
   azure_rm_virtualmachine:
@@ -117,30 +121,32 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "{{ vm_name }}"
+    name: "{{ item }}"
     vm_size: "{{ vm_size }}"
     managed_disk_type: "{{ storage_class }}"
-    storage_account: "lrs{{ vm_name }}"
-    storage_container: "vms{{vm_name}}"
-    storage_blob: "{{vm_name}}.vhd"
+    storage_account: "lrs_{{ instance_name_prefix }}"
+    storage_container: "vms_{{instance_name_prefix}}"
+    storage_blob: "instance_name_prefix.vhd"
     admin_username: "{{ default_username }}"
     admin_password: "{{ default_password }}"
-    network_interfaces: "nic01{{vm_name}}"
+    network_interfaces: "nic_{{ item }}"
     ssh_public_keys:
       - path: /home/{{ default_username }}/.ssh/authorized_keys
         key_data: "{{ lookup('env', 'AZURE_VM_SSH_PUBLIC_KEY')}}"
     tags: 
-      Name: "{{ instance_name }}"
+      Name: "{{ item }}"
       Owner: "{{ owner }}" 
       project: "{{ project_name }}"
-      type: "dev_lb"
+      type: "{{ vm_tag_type }}"
+      provider: "Azure"
     image:
       offer: RHEL
       publisher: RedHat
       sku: '9_0'
       version: latest
+  loop:
+    - "{{ instance_name_list }}"
   register: vm_result
-
 
 - name: Wait for SSH connectivity
   wait_for:
@@ -153,7 +159,3 @@
 - name: Print SSH connection information
   debug:
     msg: "SSH connection to {{ default_username }}@{{ publicip_result.state.ip_address }}"
-
-- name: Debug Password
-  debug:
-    var: default_password
