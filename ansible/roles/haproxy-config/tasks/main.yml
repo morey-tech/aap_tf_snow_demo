@@ -19,8 +19,6 @@
       template:
         src: templates/haproxy.cfg.j2
         dest: /etc/haproxy/haproxy.cfg
-      # vars:
-      #   param_group_name: "{{ ws_group_name }}"
 
     - name: start and enable haproxy
       service:
