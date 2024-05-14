@@ -1,6 +1,7 @@
 ---
 # tasks file for haproxy-config
 - name: Configure HA Load Balancer with haproxy
+
   block: 
       # epel = Extra Packages for Enterprise Linux
     - name: Ensure the epel repo is present
@@ -17,7 +18,9 @@
     - name: copy haproxy conf
       template:
         src: templates/haproxy.cfg.j2
-        dest: /etc//haproxy/haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+      vars:
+        param_group_name: "tag_AWS_dev_web"
 
     - name: start and enable haproxy
       service:
