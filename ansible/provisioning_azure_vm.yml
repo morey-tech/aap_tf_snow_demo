@@ -3,6 +3,17 @@
   hosts: localhost
 
   roles:
+
+    - role: azure-vm-provisionning
+      vars:
+        instance_name: "lbserver"
+        instance_name_list:
+          - "lbserver"
+        project_name: "{{ project_name }}"
+        res_group: "{{res_group }}"
+        vm_tag_type: "dev_lb"
+      when: "{{ create_load_balancer }}"
+
     - role: azure-vm-provisionning
       vars:
         instance_name: "{{ instance_name }}"
