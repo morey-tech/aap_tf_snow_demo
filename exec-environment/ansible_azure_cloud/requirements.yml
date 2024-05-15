@@ -1,6 +1,7 @@
 ---
 collections:
-  - community.general
+  - name: community.general
+  - name: ansible.controller
   - name: ansible.posix
     version: 1.5.4
-  - azure.azcollection
+  - name: azure.azcollection
