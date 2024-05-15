@@ -58,7 +58,7 @@
         priority: 102
         direction: Inbound
 
-- name: Create public ip for RHEL VM '{{ item }}'
+- name: Create public ip for RHEL VM
   azure_rm_publicipaddress:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
@@ -70,7 +70,7 @@
   loop: "{{ instance_name_list }}"
   register: publicip_result
 
-- name: Create Network Interface (NIC) for RHEL VM {{ item }}
+- name: Create Network Interface (NIC) for RHEL VM
   azure_rm_networkinterface:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
@@ -101,7 +101,7 @@
     resource_group: "{{ res_group }}"
     type: "{{ storage_class }}"
 
-- name: Create RHEL VM '{{ item }}' - Latest release available
+- name: Create RHEL VM - Latest release available
   azure_rm_virtualmachine:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
