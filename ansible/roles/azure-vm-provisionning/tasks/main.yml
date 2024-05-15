@@ -27,7 +27,7 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
-    name: "sn_{{ project_name }}"
+    name: "{{ subnet }}"
     resource_group: "{{ res_group }}"
     address_prefix: "{{subnet_cidr}}"
     virtual_network: "{{ virtual_network }}"

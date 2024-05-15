@@ -22,7 +22,7 @@ vm_size: Standard_D2_v2
 ip_address: "10.0.0.10"
 virtual_network: "{{ project_name }}-vnet"
 virtual_network_cidr: 10.0.0.0/24
-subnet: "{{ project-name }}-subnet"
+subnet: "{{ project_name }}-subnet"
 subnet_cidr: 10.0.0.0/24
 nic_prefix: "{{ project_name }}-nic-"
 security_group: "{{project_name}}-sg"
