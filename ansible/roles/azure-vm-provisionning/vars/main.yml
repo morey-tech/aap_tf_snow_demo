@@ -30,4 +30,8 @@ storage_account: "lrsansibledemo"
 storage_class: Standard_LRS
 storage_container: "vmsansibledemo"
 storage_blob: "ansibledemo.vhd"
+ports:
+  - 80
+  - 443
+  - 8080
 
