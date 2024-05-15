@@ -1,7 +1,7 @@
 ---
 # tasks file for azure-vm-provisionning
 
-- name: Create ressource group 
+- name: Create resource group 
   azure_rm_resourcegroup:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
@@ -16,8 +16,8 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
+    name: "{{ virtual_network }}"
     resource_group: "{{ res_group }}"
-    name: "vn_{{ project_name }}"
     address_prefixes: "{{virtual_network_cidr}}"
   register: vnet_result
 
@@ -27,10 +27,10 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
-    resource_group: "{{ res_group }}"
     name: "sn_{{ project_name }}"
-    address_prefix: "{{virtual_network_cidr}}"
-    virtual_network: "vn_{{ project_name }}"
+    resource_group: "{{ res_group }}"
+    address_prefix: "{{subnet_cidr}}"
+    virtual_network: "{{ virtual_network }}"
   register: subnet_result
 
 - name: Create security group that allows incoming traffic on SSH/HTTP/HTTPS/8080
@@ -39,8 +39,8 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
+    name: "{{ security_group }}"
     resource_group: "{{ res_group }}"
-    name: "sg_{{project_name}}"
     rules:
       - name: SSH
         protocol: Tcp
@@ -48,49 +48,47 @@
         access: Allow
         priority: 101
         direction: Inbound
-      - name: HTTP
+      - name: WebTraffic
         protocol: Tcp
-        destination_port_range: 80
+        destination_port_range: 
+          - 80
+          - 443
+          - 8080
         access: Allow
-        priority: 103
-        direction: Inbound
-      - name: HTTPS
-        protocol: Tcp
-        destination_port_range: 443
-        access: Allow
-        priority: 104
-        direction: Inbound
-      - name: Custom
-        protocol: Tcp
-        destination_port_range: 8080
-        access: Allow
-        priority: 105
+        priority: 102
         direction: Inbound
 
-- name: Create public ip for RHEL VM
+- name: Create public ip for RHEL VM '{{ item }}'
   azure_rm_publicipaddress:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
+    name: "{{ project }}-pubip-{{ item }}"
     resource_group: "{{ res_group }}"
-    allocation_method: Static
-    name: "pbip_{{ item }}"
+    allocation_method: static
   loop: "{{ instance_name_list }}"
   register: publicip_result
 
-- name: Create NIC (Network Interface Card ) for RHEL VM
+- name: Create Network Interface (NIC) for RHEL VM '{{ item }}'
   azure_rm_networkinterface:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
+    name: "{{ nic_prefix }}{{ item }}"
     resource_group: "{{ res_group }}"
-    name: "nic_{{ item }}"
-    virtual_network: "vn_{{ project_name }}"
-    subnet: "sn_{{ project_name }}"
-    public_ip_name: "pbi_{{ item }}"
-    security_group: "sg_{{ project_name }}"
+    virtual_network: "{{ virtual_network }}"
+    subnet: "{{ subnet }}"
+    ip_configurations:
+      - name: "{{ project }}-ipconf-{{ item }}"
+        public_ip_address_name:  "{{ project }}-pubip-{{ item }}"
+        public_ip_allocation_method: Static
+        primary: yes
+        # load_balancer_backend_address_pools:
+        #   - name: "{{ az_backend_pool }}"
+        #     load_balancer: "{{ az_load_balancer }}"
+    security_group: "{{ security_group }}"
   loop: "{{ instance_name_list }}"
 
 - name: Create storage account
@@ -99,26 +97,26 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
+    name: "storage_account"
     resource_group: "{{ res_group }}"
-    name: "lrs{{ project_name }}"
     type: "{{ storage_class }}"
 
-- name: Create RHEL VM - Latest release available
+- name: Create RHEL VM '{{ item }}' - Latest release available
   azure_rm_virtualmachine:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
-    resource_group: "{{ res_group }}"
     name: "{{ item }}"
+    resource_group: "{{ res_group }}"
     vm_size: "{{ vm_size }}"
     managed_disk_type: "{{ storage_class }}"
-    storage_account: "lrs{{ project_name }}"
-    storage_container: "vms{{project_name}}"
-    storage_blob: "project_name.vhd"
+    storage_account: "{{ storage_account }}"
+    storage_container: "{{ storage_container }}"
+    storage_blob: "{{ storage_blob }}"
     admin_username: "{{ default_username }}"
     admin_password: "{{ default_password }}"
-    network_interfaces: "nic_{{ item }}"
+    network_interfaces: "{{nic_prefix}}{{ item }}"
     ssh_public_keys:
       - path: /home/{{ default_username }}/.ssh/authorized_keys
         key_data: "{{ lookup('env', 'AZURE_VM_SSH_PUBLIC_KEY')}}"

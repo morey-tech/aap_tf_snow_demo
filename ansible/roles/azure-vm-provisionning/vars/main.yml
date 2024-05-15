@@ -1,18 +1,33 @@
 ---
 # vars file for azure-vm-provisionning
+
+# Required parameters
 instance_name_list: "{{ instance_name_list }}"
 vm_tag_type: "{{ vm_tag_type }}"
 project_name: "{{ project_name }}"
 res_group: "{{ res_group }}"
-owner: froberge
-res_group_location: eastus
-storage_class: Standard_LRS
-virtual_network_cidr: 10.0.0.0/24
-default_username: "azurevm"
-default_password: "{{ vm_password | default('1qaz2wsX!') }}"
-vm_size: Standard_D2_v2
-ip_address: "10.0.0.10"
+
+# Azure subscription values
 azure_client_id: "{{ lookup('env', 'AZURE_CLIENT_ID')}}"
 azure_tenant: "{{ lookup('env', 'AZURE_TENANT')}}"
 azure_subscription_id: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID')}}"
 azure_secret: "{{ lookup('env', 'AZURE_SECRET')}}"
+
+# Default values
+owner: froberge
+res_group_location: eastus
+default_username: "azurevm"
+default_password: "{{ vm_password | default('1qaz2wsX!') }}"
+vm_size: Standard_D2_v2
+ip_address: "10.0.0.10"
+virtual_network: "{{ project_name }}-vnet"
+virtual_network_cidr: 10.0.0.0/24
+subnet: "{{ project-name }}-subnet"
+subnet_cidr: 10.0.0.0/24
+nic_prefix: "{{ project }}-nic-"
+security_group: "{{project_name}}-sg"
+storage_account: "lrs{{project_name}}"
+storage_class: Standard_LRS
+storage_container: "vms{{project_name}}"
+storage_blob: "{{project_name}}.vhd"
+
