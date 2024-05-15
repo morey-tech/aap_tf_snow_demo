@@ -10,6 +10,11 @@ dependencies:
   ansible_runner:
     package_pip: ansible-runner
   galaxy: requirements.yml
+
+  python_interpreter:
+    package_system: python3.11
+    python_path: /usr/bin/python3.11
+
   python:
     - six
     - psutil
