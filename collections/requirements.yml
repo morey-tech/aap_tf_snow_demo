@@ -1,4 +1,11 @@
 ---
 collections:
   - community.general
-  - ansible.posix
+  - name: ansible.posix
+    version: 1.5.4
+
+
+
+
+
+
