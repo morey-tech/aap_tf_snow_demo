@@ -1,6 +1,6 @@
 ---
 collections:
   - community.general
-  - ansible.posix
-  - ansible.posix.firewalld
+  - name: ansible.posix
+    source: https://galaxy.ansible.com
   - azure.azcollection
