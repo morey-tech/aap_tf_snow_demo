@@ -97,7 +97,7 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
-    name: "storage_account"
+    name: "{{ storage_account }}"
     resource_group: "{{ res_group }}"
     type: "{{ storage_class }}"
 
