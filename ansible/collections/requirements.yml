@@ -1,6 +1,4 @@
 ---
 collections:
   - community.general
-  - name: ansible.posix
-    source: https://galaxy.ansible.com
-  - azure.azcollection
+  - ansible.posix
