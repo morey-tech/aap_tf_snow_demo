@@ -64,7 +64,7 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
-    name: "{{ project }}-pubip-{{ item }}"
+    name: "{{ project_name }}-pubip-{{ item }}"
     resource_group: "{{ res_group }}"
     allocation_method: static
   loop: "{{ instance_name_list }}"
@@ -82,7 +82,7 @@
     subnet: "{{ subnet }}"
     ip_configurations:
       - name: "{{ project }}-ipconf-{{ item }}"
-        public_ip_address_name:  "{{ project }}-pubip-{{ item }}"
+        public_ip_address_name:  "{{ project_name }}-pubip-{{ item }}"
         public_ip_allocation_method: Static
         primary: yes
         # load_balancer_backend_address_pools:
