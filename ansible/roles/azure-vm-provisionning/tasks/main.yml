@@ -81,7 +81,7 @@
     virtual_network: "{{ virtual_network }}"
     subnet: "{{ subnet }}"
     ip_configurations:
-      - name: "{{ project }}-ipconf-{{ item }}"
+      - name: "{{ project_name }}-ipconf-{{ item }}"
         public_ip_address_name:  "{{ project_name }}-pubip-{{ item }}"
         public_ip_allocation_method: Static
         primary: yes
