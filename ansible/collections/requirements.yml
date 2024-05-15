@@ -2,4 +2,5 @@
 collections:
   - community.general
   - ansible.posix
+  - ansible.posix.firewalld
   - azure.azcollection
