@@ -24,7 +24,7 @@ virtual_network: "{{ project_name }}-vnet"
 virtual_network_cidr: 10.0.0.0/24
 subnet: "{{ project-name }}-subnet"
 subnet_cidr: 10.0.0.0/24
-nic_prefix: "{{ project }}-nic-"
+nic_prefix: "{{ project_name }}-nic-"
 security_group: "{{project_name}}-sg"
 storage_account: "lrs{{project_name}}"
 storage_class: Standard_LRS
