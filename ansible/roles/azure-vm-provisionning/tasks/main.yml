@@ -17,7 +17,7 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "vn_{{ instance_name_prefix }}"
+    name: "vn_{{ project_name }}"
     address_prefixes: "{{virtual_network_cidr}}"
   register: vnet_result
 
@@ -28,9 +28,9 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "sn_{{ instance_name_prefix }}"
+    name: "sn_{{ project_name }}"
     address_prefix: "{{virtual_network_cidr}}"
-    virtual_network: "vn_{{ instance_name_prefix }}"
+    virtual_network: "vn_{{ project_name }}"
   register: subnet_result
 
 - name: Create security group that allows incoming traffic on SSH/HTTP/HTTPS/8080
@@ -40,7 +40,7 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "sg_{{instance_name_prefix}}"
+    name: "sg_{{project_name}}"
     rules:
       - name: SSH
         protocol: Tcp
@@ -87,10 +87,10 @@
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
     name: "nic_{{ item }}"
-    virtual_network: "vn_{{ instance_name_prefix }}"
-    subnet: "sn_{{ instance_name_prefix }}"
+    virtual_network: "vn_{{ project_name }}"
+    subnet: "sn_{{ project_name }}"
     public_ip_name: "pbi_{{ item }}"
-    security_group: "sg_{{ instance_name_prefix }}"
+    security_group: "sg_{{ project_name }}"
   loop: "{{ instance_name_list }}"
 
 - name: Create storage account
@@ -100,7 +100,7 @@
     subscription_id: "{{ azure_subscription_id }}"
     secret: "{{ azure_secret }}"
     resource_group: "{{ res_group }}"
-    name: "lrs{{ instance_name_prefix }}"
+    name: "lrs{{ project_name }}"
     type: "{{ storage_class }}"
 
 - name: Create RHEL VM - Latest release available
@@ -113,9 +113,9 @@
     name: "{{ item }}"
     vm_size: "{{ vm_size }}"
     managed_disk_type: "{{ storage_class }}"
-    storage_account: "lrs{{ instance_name_prefix }}"
-    storage_container: "vms{{instance_name_prefix}}"
-    storage_blob: "instance_name_prefix.vhd"
+    storage_account: "lrs{{ project_name }}"
+    storage_container: "vms{{project_name}}"
+    storage_blob: "project_name.vhd"
     admin_username: "{{ default_username }}"
     admin_password: "{{ default_password }}"
     network_interfaces: "nic_{{ item }}"

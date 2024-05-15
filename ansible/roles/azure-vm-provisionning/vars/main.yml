@@ -1,6 +1,5 @@
 ---
 # vars file for azure-vm-provisionning
-instance_name_prefix: "{{ instance_name_prefix }}"
 instance_name_list: "{{ instance_name_list }}"
 vm_tag_type: "{{ vm_tag_type }}"
 project_name: "{{ project_name }}"
