@@ -26,8 +26,8 @@ subnet: "{{ project_name }}-subnet"
 subnet_cidr: 10.0.0.0/24
 nic_prefix: "{{ project_name }}-nic-"
 security_group: "{{project_name}}-sg"
-storage_account: "lrs{{res_group}}"
+storage_account: "lrsansibledemo"
 storage_class: Standard_LRS
-storage_container: "vms{{res_group}}"
-storage_blob: "{{res_group}}.vhd"
+storage_container: "vmsansibledemo"
+storage_blob: "ansibledemo.vhd"
 
