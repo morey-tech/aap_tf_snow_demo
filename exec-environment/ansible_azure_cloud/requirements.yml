@@ -3,9 +3,4 @@ collections:
   - community.general
   - name: ansible.posix
     version: 1.5.4
-
-
-
-
-
-
+  - azure.azcollection

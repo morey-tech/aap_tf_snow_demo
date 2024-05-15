@@ -50,26 +50,29 @@
         ```
         buildVersion=[add version]
         ```
-
-    1. Now lets build the image
+    1. Define the image name you want to build
+    ```
+    imageName=[add name]
+    ```
+    1. Now let's build the image
         ```
-        ansible-builder build -v 3 -t ansible-terraform-demo:latest
+        ansible-builder build -v 3 -t ${imageName}:latest
         ```
     1. Let's tag the images, one tag with the version one with latest. ( in this command I use my quay registry, change for your location.)
 
         ```
-        podman tag ansible-terraform-demo:latest quay.io/froberge/ansible-terraform-demo:latest
+        podman tag ${imageName}:latest quay.io/froberge/${imageName}:latest
         ```
         ```
-        podman tag ansible-terraform-demo:latest quay.io/froberge/ansible-terraform-demo:${buildVersion}
+        podman tag ${imageName}:latest quay.io/froberge/${imageName}:${buildVersion}
         ```
     1. Now push the 2 images to the registry
         ```
-        podman push quay.io/froberge/ansible-terraform-demo:latest
+        podman push quay.io/froberge/${imageName}:latest
         ```
 
         ```
-        podman push quay.io/froberge/ansible-terraform-demo:${buildVersion}
+        podman push quay.io/froberge/${imageName}:${buildVersion}
         ```
 ---
 
