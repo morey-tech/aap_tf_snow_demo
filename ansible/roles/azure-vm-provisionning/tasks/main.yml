@@ -70,7 +70,7 @@
   loop: "{{ instance_name_list }}"
   register: publicip_result
 
-- name: Create Network Interface (NIC) for RHEL VM
+- name: Create Network Interface for RHEL VM
   azure_rm_networkinterface:
     client_id: "{{ azure_client_id }}"
     tenant: "{{ azure_tenant }}"
