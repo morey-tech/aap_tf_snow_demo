@@ -13,7 +13,7 @@
     host: smtp.gmail.com
     port: 587
     sender: "{{ email_username }}"
-    to: "{{ recipient }}"
+    to: "froberge@redhat.com"
     username: "{{ email_username }}"
     password: "{{ email_password }}"
     subject: "Ansible Report"
