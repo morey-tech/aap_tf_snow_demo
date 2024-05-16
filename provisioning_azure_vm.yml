@@ -12,12 +12,12 @@
 
   tasks:
     - name: Ensure firewalld is installed
-      yum:
+      ansible.builtin.yum:
         name: firewalld
         state: present
 
     - name: Ensure firewalld is running and enabled
-      service:
+      ansible.builtin.service:
         name: firewalld
         state: started
         enabled: yes
@@ -51,4 +51,4 @@
         immediate: yes
 
     - name: Reload firewalld to apply permanent rules
-      command: firewall-cmd --reload
+      ansible.builtin.command: firewall-cmd --reload
