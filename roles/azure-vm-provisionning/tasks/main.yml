@@ -134,11 +134,3 @@
       version: latest
   loop: "{{ instance_name_list }}"
   register: vm_result
-
-# - name: Configure tcp access to network ports
-#   ansible.posix.firewalld:
-#     port: "{{ item }}/tcp"
-#     immediate: true
-#     permanent: true
-#     state: enabled
-#   loop: "{{ ports }}"
