@@ -36,12 +36,5 @@
         state: enabled
         immediate: yes
 
-    - name: Allow TCP port 22
-      firewalld:
-        port: 22/tcp
-        permanent: yes
-        state: enabled
-        immediate: yes
-
     - name: Reload firewalld to apply permanent rules
       ansible.builtin.command: firewall-cmd --reload
