@@ -1,5 +1,2 @@
 ---
 # vars file for sent_mail
-email_username: '{{ email_username }}'
-email_password: '{{ email_password }}'
-recipient: "{{ recipient }}"
