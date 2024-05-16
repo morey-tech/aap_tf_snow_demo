@@ -3,7 +3,7 @@
   hosts: localhost
 
   roles:
-    - role: azure-vm_provisionning
+    - role: azure-vm-provisionning
       vars:
         project_name: "{{ project_name }}"
         res_group: "{{res_group }}"
