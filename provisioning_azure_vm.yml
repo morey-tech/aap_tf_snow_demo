@@ -11,10 +11,10 @@
         vm_tag_type: "{{vm_tag_type}}"
 
   tasks:
-    - name: Ensure firewalld is installed
-      ansible.builtin.yum:
-        name: firewalld
-        state: present
+    # - name: Ensure firewalld is installed
+    #   ansible.builtin.yum:
+    #     name: firewalld
+    #     state: present
 
     - name: Ensure firewalld is running and enabled
       ansible.builtin.service:
