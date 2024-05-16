@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Deleting resource group - "{{ res_group }}"
+      azure_rm_resourcegroup:
+        name: "{{ name }}"
+        state: absent
+      register: rg

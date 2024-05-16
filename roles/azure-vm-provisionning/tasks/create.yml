@@ -1,0 +1,136 @@
+---
+# tasks file for azure-vm-provisionning
+
+- name: Create resource group 
+  azure_rm_resourcegroup:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ res_group }}"
+    location: "{{ res_group_location }}"
+
+- name: Create virtual network
+  azure_rm_virtualnetwork:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ virtual_network }}"
+    resource_group: "{{ res_group }}"
+    address_prefixes: "{{virtual_network_cidr}}"
+  register: vnet_result
+
+- name: Add subnet
+  azure_rm_subnet:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ subnet }}"
+    resource_group: "{{ res_group }}"
+    address_prefix: "{{subnet_cidr}}"
+    virtual_network: "{{ virtual_network }}"
+  register: subnet_result
+
+- name: Create security group that allows incoming traffic on SSH/HTTP/HTTPS/8080
+  azure_rm_securitygroup:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ security_group }}"
+    resource_group: "{{ res_group }}"
+    rules:
+      - name: SSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 101
+        direction: Inbound
+      - name: WebTraffic
+        protocol: Tcp
+        destination_port_range: 
+          - 80
+          - 443
+          - 8080
+        access: Allow
+        priority: 102
+        direction: Inbound
+
+- name: Create public ip for RHEL VM
+  azure_rm_publicipaddress:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ project_name }}-pubip-{{ item }}"
+    resource_group: "{{ res_group }}"
+    allocation_method: static
+  loop: "{{ instance_name_list }}"
+  register: publicip_result
+
+- name: Create Network Interface for RHEL VM
+  azure_rm_networkinterface:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ nic_prefix }}{{ item }}"
+    resource_group: "{{ res_group }}"
+    virtual_network: "{{ virtual_network }}"
+    subnet: "{{ subnet }}"
+    ip_configurations:
+      - name: "{{ project_name }}-ipconf-{{ item }}"
+        public_ip_address_name:  "{{ project_name }}-pubip-{{ item }}"
+        public_ip_allocation_method: Static
+    security_group: "{{ security_group }}"
+  loop: "{{ instance_name_list }}"
+
+- name: Create storage account
+  azure_rm_storageaccount:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ storage_account }}"
+    resource_group: "{{ res_group }}"
+    type: "{{ storage_class }}"
+
+- name: Create RHEL VM - Latest release available
+  azure_rm_virtualmachine:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ item }}"
+    resource_group: "{{ res_group }}"
+    vm_size: "{{ vm_size }}"
+    managed_disk_type: "{{ storage_class }}"
+    storage_account: "{{ storage_account }}"
+    storage_container: "{{ storage_container }}"
+    storage_blob: "{{ storage_blob }}"
+    admin_username: "{{ default_username }}"
+    admin_password: "{{ default_password }}"
+    network_interfaces: "{{nic_prefix}}{{ item }}"
+    open_ports:
+      - 8080/tcp
+      - 443/tcp
+      - 80/tcp
+      - 22/tcp
+    ssh_public_keys:
+      - path: /home/{{ default_username }}/.ssh/authorized_keys
+        key_data: "{{ lookup('env', 'AZURE_VM_SSH_PUBLIC_KEY')}}"
+    tags: 
+      Name: "{{ item }}"
+      Owner: "{{ owner }}" 
+      project: "{{ project_name }}"
+      type: "{{ vm_tag_type }}"
+      provider: "Azure"
+    image:
+      offer: RHEL
+      publisher: RedHat
+      sku: '9_0'
+      version: latest
+  loop: "{{ instance_name_list }}"
+  register: vm_result
