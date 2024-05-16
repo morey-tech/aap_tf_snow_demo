@@ -11,9 +11,9 @@
   mail:
     host: smtp.gmail.com
     port: 587
-    sender: '{{ email_username }}'
-    to: froberge@redhat.com
-    username: '{{ email_username }}'
-    password: '{{ email_password }}'
-    subject: Ansible Report
-    body: System has been successfully provisioned.
+    sender: "{{ email_username }}"
+    to: "{{ recipient }}"
+    username: "{{ email_username }}"
+    password: "{{ email_password }}"
+    subject: "{{ subject }}"
+    body: "{{ body }}"
