@@ -1,15 +1,11 @@
 ---
 # tasks file for sent_mail
-- hosts:
-    - localhost
-  tasks:
-    - name: Sending an e-mail using Gmail SMTP servers
-      mail:
-        host: smtp.gmail.com
-        port: 587
-        username: "{{username}}"
-        password: "{{password}}"
-        to: "{{ recipient }}"
-        subject: Ansible Report
-        body: System has been successfully provisioned.
-      delegate_to: localhost
+- name: Sending an e-mail using Gmail SMTP servers
+  community.general.mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "{{username}}"
+    password: "{{password}}"
+    to: "{{ recipient }}"
+    subject: Ansible Report
+    body: System has been successfully provisioned.
