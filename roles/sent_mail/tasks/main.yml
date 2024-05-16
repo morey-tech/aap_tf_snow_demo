@@ -8,14 +8,22 @@
       var3: "{{ recipient }}"
 
 
+- name: Sending an e-mail using the remote machine, not the Ansible controller node
+  community.general.mail:
+    host: localhost
+    port: 25
+    to: Felix Roberge <froberge@redhat.com>
+    subject: Ansible-report
+    body: System has been successfully provisioned.
+
 - name: Sending an e-mail using Gmail SMTP servers
   mail:
     host: smtp.gmail.com
     port: 587
-    sender: {{ email_username }}
+    sender: '{{ email_username }}'
     to: froberge@redhat.com
-    username: {{ email_username }}
-    password: {{ email_password }}
+    username: '{{ email_username }}'
+    password: '{{ email_password }}'
     subject: Ansible Report
     body: System has been successfully provisioned.
     delegate_to: localhost
