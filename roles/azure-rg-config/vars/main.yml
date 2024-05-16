@@ -3,6 +3,7 @@
 
 # Required parameters
 res_group: "{{ res_group }}"
+project_name: "{{ project_name }}"
 
 # Azure subscription values
 azure_client_id: "{{ lookup('env', 'AZURE_CLIENT_ID')}}"
@@ -15,3 +16,8 @@ res_group_location: eastus
 storage_account: "lrsansibledemo"
 storage_class: Standard_LRS
 storage_blob: "ansibledemo.vhd"
+virtual_network: "{{ project_name }}-vnet"
+virtual_network_cidr: 10.0.0.0/24
+subnet: "{{ project_name }}-subnet"
+subnet_cidr: 10.0.0.0/24
+
