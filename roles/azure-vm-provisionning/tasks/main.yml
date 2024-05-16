@@ -113,6 +113,11 @@
     admin_username: "{{ default_username }}"
     admin_password: "{{ default_password }}"
     network_interfaces: "{{nic_prefix}}{{ item }}"
+    open_ports:
+      - 80
+      - 443
+      - 8080
+      - 22
     ssh_public_keys:
       - path: /home/{{ default_username }}/.ssh/authorized_keys
         key_data: "{{ lookup('env', 'AZURE_VM_SSH_PUBLIC_KEY')}}"
@@ -130,10 +135,10 @@
   loop: "{{ instance_name_list }}"
   register: vm_result
 
-- name: Configure tcp access to network ports
-  ansible.posix.firewalld:
-    port: "{{ item }}/tcp"
-    immediate: true
-    permanent: true
-    state: enabled
-  loop: "{{ ports }}"
+# - name: Configure tcp access to network ports
+#   ansible.posix.firewalld:
+#     port: "{{ item }}/tcp"
+#     immediate: true
+#     permanent: true
+#     state: enabled
+#   loop: "{{ ports }}"

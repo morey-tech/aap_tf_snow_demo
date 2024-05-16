@@ -4,13 +4,16 @@ version: 3
 build_arg_defaults:
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: '--pre'
 
+options:
+  package_manager_path: /usr/bin/microdnf
+
 dependencies:
   ansible_core:
     package_pip: ansible-core
   ansible_runner:
     package_pip: ansible-runner
   galaxy: requirements.yml
-
+  
   python_interpreter:
     package_system: python3.11
     python_path: /usr/bin/python3.11
@@ -21,18 +24,17 @@ dependencies:
 
 images:
   base_image:
-      name: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
-
-options:
-  package_manager_path: /usr/bin/microdnf
+    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest
 
 additional_build_files:
     - src: ansible.cfg
       dest: configs
 
 additional_build_steps:
-  append_base:
-    - RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo' && microdnf install azure-cli
+
+  prepend_base:
+  #   - RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo' && microdnf install azure-cli
+    - RUN $PKGMGR install -y bash-completion
 
   prepend_galaxy:
     - ADD _build/configs/ansible.cfg ~/.ansible.cfg
@@ -44,3 +46,50 @@ additional_build_steps:
   append_final:
     - RUN echo This is a post-install command!
     - RUN ls -la /etc
+
+# ---
+# version: 3
+
+# build_arg_defaults:
+#   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: '--pre'
+
+# dependencies:
+#   ansible_core:
+#     package_pip: ansible-core
+#   ansible_runner:
+#     package_pip: ansible-runner
+#   galaxy: requirements.yml
+
+#   python_interpreter:
+#     package_system: python3.11
+#     python_path: /usr/bin/python3.11
+
+#   python:
+#     - six
+#     - psutil
+
+# images:
+#   base_image:
+#       name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest
+
+# options:
+#   package_manager_path: /usr/bin/microdnf
+
+# additional_build_files:
+#     - src: ansible.cfg
+#       dest: configs
+
+# additional_build_steps:
+#   append_base:
+#     - RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo' && microdnf install azure-cli
+
+#   prepend_galaxy:
+#     - ADD _build/configs/ansible.cfg ~/.ansible.cfg
+
+#   prepend_final: |
+#     RUN whoami
+#     RUN cat /etc/os-release
+
+#   append_final:
+#     - RUN echo This is a post-install command!
+#     - RUN ls -la /etc
