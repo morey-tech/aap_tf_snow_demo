@@ -1,0 +1,5 @@
+---
+# vars file for sent_mail
+username: '{{ username }}'
+password: '{{ password }}'
+recipient: "{{ recipient }}"

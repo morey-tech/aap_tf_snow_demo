@@ -1,5 +1,5 @@
 ---
-- name: Provision VM in Azure with Ansible
+- name: Configure Azure Resource group with Ansible
   hosts: localhost
 
   roles:

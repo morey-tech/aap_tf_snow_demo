@@ -1,0 +1,10 @@
+---
+- name: Send mail notification
+  hosts: localhost
+
+  roles:
+    - role: sent_mail
+      vars:
+        username: '{{ lookup("env", "email_username") }}'
+        password: '{{ lookup("env", "email_password") }}'
+        recipient: "{{ recipient }}"
