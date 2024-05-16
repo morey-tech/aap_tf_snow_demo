@@ -8,4 +8,5 @@
         instance_name_list: "{{ instance_name_list }}"
         project_name: "{{ project_name }}"
         res_group: "{{res_group }}"
-        vm_tag_type: "{{vm_tag_type}}"
+        instance_env: "{{ instance_env }}"
+        vm_type: "{{ vm_type }}"

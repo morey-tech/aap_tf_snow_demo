@@ -3,9 +3,11 @@
 
 # Required parameters
 instance_name_list: "{{ instance_name_list }}"
-vm_tag_type: "{{ vm_tag_type }}"
+instance_env: "{{ instance_env }}"
+vm_type: "{{ vm_type }}"
 project_name: "{{ project_name }}"
 res_group: "{{ res_group }}"
+vm_tag_type: "{{ instance_env }}_{{ vm_type }}"
 
 # Azure subscription values
 azure_client_id: "{{ lookup('env', 'AZURE_CLIENT_ID')}}"
@@ -30,8 +32,3 @@ storage_account: "lrsansibledemo"
 storage_class: Standard_LRS
 storage_container: "vmsansibledemo"
 storage_blob: "ansibledemo.vhd"
-ports:
-  - 80
-  - 443
-  - 8080
-

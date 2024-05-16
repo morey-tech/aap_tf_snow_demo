@@ -3,4 +3,5 @@
   hosts: all
 
   roles:
-    - jboss-eap-config
+    - role: jboss-eap-config
+      when: "'{{ ws_group_name }}' in group_names"
