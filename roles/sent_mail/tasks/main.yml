@@ -1,11 +1,18 @@
 ---
 # tasks file for sent_mail
+- name: Check the values
+  ansible.builtin.debug:
+    msg:
+      var1: "{{ email_username }}"
+      var2: "{{ email_password }}"
+
+
 - name: Sending an e-mail using Gmail SMTP servers
   community.general.mail:
     host: smtp.gmail.com
     port: 587
-    username: "{{username}}"
-    password: "{{password}}"
+    username: "{{ email_username }}"
+    password: "{{ email_password }}"
     to: "{{ recipient }}"
-    subject: Ansible Report
-    body: System has been successfully provisioned.
+    subject: "Ansible Report"
+    body: "System has been successfully provisioned."
