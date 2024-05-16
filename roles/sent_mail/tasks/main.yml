@@ -5,6 +5,7 @@
     msg:
       var1: "{{ email_username }}"
       var2: "{{ email_password }}"
+      var3: "{{ recipient }}"
 
 
 - name: Sending an e-mail using Gmail SMTP servers
