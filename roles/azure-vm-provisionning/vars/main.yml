@@ -2,9 +2,9 @@
 # vars file for azure-vm-provisionning
 
 # Required parameters
-instance_name_list: "{{ instance_name_list }}"
-vm_tag_type: "{{ vm_tag_type }}"
-project_name: "{{ project_name }}"
+instance_name_list: "{{ instance_name_list }} | default( '' )"
+vm_tag_type: "{{ vm_tag_type }} | default( '' )"
+project_name: "{{ project_name }} | default( '' )"
 res_group: "{{ res_group }}"
 action: "{{ action }}"
 
