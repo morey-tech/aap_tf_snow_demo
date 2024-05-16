@@ -20,4 +20,5 @@ virtual_network: "{{ project_name }}-vnet"
 virtual_network_cidr: 10.0.0.0/24
 subnet: "{{ project_name }}-subnet"
 subnet_cidr: 10.0.0.0/24
+security_group: "{{project_name}}-sg"
 
