@@ -1,7 +1,7 @@
 ---
 - name: Deleting resource group - "{{ res_group }}"
   azure_rm_resourcegroup:
-    name: "{{ name }}"
+    name: "{{ res_group }}"
     state: absent
   register: rg
 
