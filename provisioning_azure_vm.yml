@@ -11,46 +11,44 @@
         vm_tag_type: "{{vm_tag_type}}"
 
   tasks:
-    block: 
-      - name: Ensure firewalld is installed
-        yum:
-          name: firewalld
-          state: present
+    - name: Ensure firewalld is installed
+      yum:
+        name: firewalld
+        state: present
 
-      - name: Ensure firewalld is running and enabled
-        service:
-          name: firewalld
-          state: started
-          enabled: yes
+    - name: Ensure firewalld is running and enabled
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
 
-      - name: Allow TCP port 80
-        firewalld:
-          service: http
-          permanent: yes
-          state: enabled
-          immediate: yes
+    - name: Allow TCP port 80
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes
 
-      - name: Allow TCP port 8080
-        firewalld:
-          service: http
-          permanent: yes
-          state: enabled
-          immediate: yes
+    - name: Allow TCP port 8080
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes
 
-      - name: Allow TCP port 443
-        firewalld:
-          service: https
-          permanent: yes
-          state: enabled
-          immediate: yes
+    - name: Allow TCP port 443
+      firewalld:
+        service: https
+        permanent: yes
+        state: enabled
+        immediate: yes
 
-      - name: Allow TCP port 22
-        firewalld:
-          port: 22/tcp
-          permanent: yes
-          state: enabled
-          immediate: yes
+    - name: Allow TCP port 22
+      firewalld:
+        port: 22/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
 
-      - name: Reload firewalld to apply permanent rules
-        command: firewall-cmd --reload
-    when: "'{{ vm_tag_type }}' in group_names"
+    - name: Reload firewalld to apply permanent rules
+      command: firewall-cmd --reload
