@@ -1,0 +1,72 @@
+---
+# tasks file for azure-rg-config
+
+- name: Create resource group 
+  azure_rm_resourcegroup:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ res_group }}"
+    location: "{{ res_group_location }}"
+
+- name: Create virtual network
+  azure_rm_virtualnetwork:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ virtual_network }}"
+    resource_group: "{{ res_group }}"
+    address_prefixes: "{{virtual_network_cidr}}"
+  register: vnet_result
+
+- name: Add subnet
+  azure_rm_subnet:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ subnet }}"
+    resource_group: "{{ res_group }}"
+    address_prefix: "{{subnet_cidr}}"
+    virtual_network: "{{ virtual_network }}"
+  register: subnet_result
+
+- name: Create security group that allows incoming traffic on SSH/HTTP/HTTPS/8080
+  azure_rm_securitygroup:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ security_group }}"
+    resource_group: "{{ res_group }}"
+    rules:
+      - name: SSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 101
+        direction: Inbound
+      - name: WebTraffic
+        protocol: Tcp
+        destination_port_range: 
+          - 80
+          - 443
+          - 8080
+        access: Allow
+        priority: 102
+        direction: Inbound
+
+- name: Create storage account
+  azure_rm_storageaccount:
+    client_id: "{{ azure_client_id }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    secret: "{{ azure_secret }}"
+    name: "{{ storage_account }}"
+    resource_group: "{{ res_group }}"
+    type: "{{ storage_class }}"
+
+
+
