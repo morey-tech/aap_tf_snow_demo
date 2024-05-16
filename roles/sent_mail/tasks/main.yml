@@ -18,3 +18,4 @@
     password: "{{ email_password }}"
     subject: "Ansible Report"
     body: "System has been successfully provisioned."
+    delegate_to: localhost
