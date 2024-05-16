@@ -5,5 +5,6 @@
     state: absent
   register: rg
 
-- debug:
-  var: rg
+- name: Print the resource group deleted
+  ansible.builtin.debug:
+    var: rg
