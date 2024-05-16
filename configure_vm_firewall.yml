@@ -24,7 +24,6 @@
 
     - name: Allow TCP port 8080
       firewalld:
-        service: http
         permanent: yes
         state: enabled
         immediate: yes
