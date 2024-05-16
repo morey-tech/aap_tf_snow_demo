@@ -75,6 +75,7 @@
     - {regexp: "^# JBOSS_USER=", line: "JBOSS_USER=jboss-eap"}
     - {regexp: "^# JBOSS_CONFIG=", line: "JBOSS_CONFIG=standalone-ha.xml"}
     - {regexp: "^# JBOSS_OPTS=", line: "JBOSS_OPTS=\"-b 0.0.0.0 -bprivate `hostname -i` -Djboss.node.name={{ inventory_hostname }}\""}
+    - {regexp: "^# JBOSS_ID=", line: "JBOSS_ID=jboss"}
     
 - name: Copy JBoss Service Configuration File
   copy:
