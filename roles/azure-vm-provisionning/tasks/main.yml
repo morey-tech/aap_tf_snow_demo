@@ -59,7 +59,7 @@
       Owner: "{{ owner }}" 
       project: "{{ project_name }}"
       type: "{{ vm_tag_type }}"
-      provider: "Azure"
+      provider: "azure"
     image:
       offer: RHEL
       publisher: RedHat
