@@ -1,5 +1,5 @@
 ---
-# tasks file for terraform-provisionning
+# tasks file for terraform-provisioning
 - name: Git checkout
   ansible.builtin.git:
     repo: '{{ git_repo_url }}'

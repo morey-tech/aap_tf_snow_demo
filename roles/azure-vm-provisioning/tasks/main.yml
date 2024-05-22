@@ -1,5 +1,5 @@
 ---
-# tasks file for azure-vm-provisionning
+# tasks file for azure-vm-provisioning
 
 - name: Create public ip for RHEL VM
   azure_rm_publicipaddress:

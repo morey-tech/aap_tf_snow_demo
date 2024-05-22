@@ -1,5 +1,5 @@
 ---
-# vars file for azure-vm-provisionning
+# vars file for azure-vm-provisioning
 
 # Required parameters
 instance_name_list: "{{ instance_name_list }}"

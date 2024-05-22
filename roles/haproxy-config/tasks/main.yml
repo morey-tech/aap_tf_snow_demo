@@ -17,7 +17,7 @@
 
     - name: copy haproxy conf
       template:
-        src: templates/haproxy_{{cloud_provider}}.cfg.j2
+        src: templates/haproxy.cfg.j2
         dest: /etc/haproxy/haproxy.cfg
 
     - name: start and enable haproxy
