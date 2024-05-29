@@ -18,7 +18,7 @@ Ansible and Terraform are both great automation tools which have different ways 
   * Great for orchestration multiple teams and technologies in to a single IT worksflow. ex: Window, Linux, Network, API ....
   * Cross-domain automation solution
 
-![architecture](docs/images/ansible-terraform.png)
+![architecture](images/ansible-terraform.png)
 
 ---
 #### Demo
@@ -49,7 +49,7 @@ For the complete demo we wil be using 3 cloud providers. The demo is build so yo
 
 Implementation diagram:
 
-![architecture diagram](docs/images/infra.png)
+![architecture diagram](images/infra.png)
 
 ---
 
@@ -63,11 +63,11 @@ For the demo we need and execution environment, you can find the info on how to 
 * Ansible connects to EC2 instance using SSH. Let's start by creation a new [Key pair in AWS](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/getstarted-keypair.html). 
 
 * Create key pair, call `ansible_terraform_demo`
-![create-key-pair](docs/images/create-key-pair.png)
+![create-key-pair](images/create-key-pair.png)
 :warning: if you change the name you need to edit the terraform main  file with the new name.
 
 * Create a credential in AAP which contains the SSH key for the user `ec2-user`
-![create_credential_ssh_aws](docs/images/create-credential-ssh-aws.png)
+![create_credential_ssh_aws](images/create-credential-ssh-aws.png)
 
 
 ###### Azure
