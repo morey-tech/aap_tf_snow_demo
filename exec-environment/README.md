@@ -1,16 +1,12 @@
-## Create an Execution Environement for Ansible Automation Plateform which allow you to use terraform.
+## Create an Execution Environement for Ansible Automation Platform which allows you to use terraform.
 
 ## Prerequisites
 
 * Podman
 * Login into registry.redhat.io registry 
-    ```
-    podman login registry.redhat.io
-    ```
+```podman login registry.redhat.io```
 * A registry to push your execution environment image like for example quay.io. 
-    ```
-    podman login quay.io
-    ```
+```podman login quay.io```
 * Create an ansible.cfg file in `/execution-env` folder to give you Automation Hub Token (see next step)
 ---
 
@@ -18,7 +14,7 @@
 
 1. Create the ansible.cfg file
 
-    For ansible-build to be able to fetch collections from Red Hat Automation Hub, you will need to provide your Automation Hub token. This is done by editing the ansible.cfg file. Make sure this file won't be push into a public git repo since it will contain your personal AH token.
+    For ansible-build to be able to fetch collections from Red Hat Automation Hub, you will need to provide your Automation Hub token. This is done by editing the ansible.cfg file. Make sure this file won't be push into a public git repo since it will contain your personal Automation Hub token.
 
     ``` ini
     [defaults]
@@ -47,33 +43,20 @@
     _~github/froberge/ansible_terraform_demo/ansible_terraform_cloud_vm_deployment/exec-environment_
     1. Move into the folder of the executaion environment you would like to build.
     1. Define the build version we want to start with in a variable.
-        ```
-        buildVersion=[add version]
-        ```
+        ``` buildVersion=[add version]```
     1. Define the image name you want to build
-    ```
-    imageName=[add name]
-    ```
+        ```imageName=[add name]```
     1. Now let's build the image
-        ```
-        ansible-builder build -v 3 -t ${imageName}:latest
-        ```
+        ``` ansible-builder build -v 3 -t ${imageName}:latest ```
     1. Let's tag the images, one tag with the version one with latest. ( in this command I use my quay registry, change for your location.)
 
-        ```
-        podman tag ${imageName}:latest quay.io/froberge/${imageName}:latest
-        ```
-        ```
-        podman tag ${imageName}:latest quay.io/froberge/${imageName}:${buildVersion}
-        ```
-    1. Now push the 2 images to the registry
-        ```
-        podman push quay.io/froberge/${imageName}:latest
-        ```
+        > ```podman tag ${imageName}:latest quay.io/froberge/${imageName}:latest```
 
-        ```
-        podman push quay.io/froberge/${imageName}:${buildVersion}
-        ```
+        > ```podman tag ${imageName}:latest quay.io/froberge/${imageName}:${buildVersion}```
+    1. Now push the 2 images to the registry
+        > ``` podman push quay.io/froberge/${imageName}:latest```
+
+        > ```podman push quay.io/froberge/${imageName}:${buildVersion}```
 ---
 
-:information_desk_person: The image is available at this address [quay.io/froberge](https://quay.io/repository/froberge/ansible-terraform-all?tab=tags)
+:information_desk_person: The already build image is available at this address [quay.io/froberge](https://quay.io/repository/froberge/ansible-terraform-all?tab=tags)
