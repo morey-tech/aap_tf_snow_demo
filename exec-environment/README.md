@@ -1,12 +1,19 @@
 ## Create an Execution Environement for Ansible Automation Platform which allows you to use terraform.
+Read this in other languages: :fr:[ French/Français](README.fr.md)
+
+
 
 ## Prerequisites
 
 * Podman
 * Login into registry.redhat.io registry 
-```podman login registry.redhat.io```
+    ```script 
+    podman login registry.redhat.io
+    ```
 * A registry to push your execution environment image like for example quay.io. 
-```podman login quay.io```
+    ```script
+    podman login quay.io
+    ```
 * Create an ansible.cfg file in `/execution-env` folder to give you Automation Hub Token (see next step)
 ---
 
@@ -43,20 +50,33 @@
     _~github/froberge/ansible_terraform_demo/ansible_terraform_cloud_vm_deployment/exec-environment_
     1. Move into the folder of the executaion environment you would like to build.
     1. Define the build version we want to start with in a variable.
-        ``` buildVersion=[add version]```
+        ```script
+        buildVersion=[add version]
+        ```
     1. Define the image name you want to build
-        ```imageName=[add name]```
+        ```script
+        imageName=[add name]
+        ```
     1. Now let's build the image
-        ``` ansible-builder build -v 3 -t ${imageName}:latest ```
+        ```script
+        ansible-builder build -v 3 -t ${imageName}:latest
+        ```
     1. Let's tag the images, one tag with the version one with latest. ( in this command I use my quay registry, change for your location.)
+        ```script
+        podman tag ${imageName}:latest quay.io/froberge/${imageName}:latest
+        ```
 
-        > ```podman tag ${imageName}:latest quay.io/froberge/${imageName}:latest```
-
-        > ```podman tag ${imageName}:latest quay.io/froberge/${imageName}:${buildVersion}```
+        ```script 
+        podman tag ${imageName}:latest quay.io/froberge/${imageName}:${buildVersion}
+        ```
     1. Now push the 2 images to the registry
-        > ``` podman push quay.io/froberge/${imageName}:latest```
+        ```script
+        podman push quay.io/froberge/${imageName}:latest
+        ```
 
-        > ```podman push quay.io/froberge/${imageName}:${buildVersion}```
+        ```script
+        podman push quay.io/froberge/${imageName}:${buildVersion}
+        ```
 ---
 
 :information_desk_person: The already build image is available at this address [quay.io/froberge](https://quay.io/repository/froberge/ansible-terraform-all?tab=tags)

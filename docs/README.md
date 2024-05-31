@@ -1,4 +1,5 @@
 # Ansible Cloud App Deployment
+Read this in other languages: :fr:[ French/Français](README.fr.md)
 
 #### Objective
 
@@ -67,7 +68,7 @@ For the demo we need and execution environment, you can find the info on how to 
 ![github new credential](images/aap-github-credential-type.png)
 You can use these values to populate the fields.
   * input configuration ( in yaml)
-    ```
+    ```script
       fields:
       - id: git_user
         type: string
@@ -86,7 +87,7 @@ You can use these values to populate the fields.
       - pah_pass
     ```
   * Injector configuration ( in yaml )
-    ```
+    ```script
     env:
     git_user: '{{ git_user }}'
     pah_pass: '{{ pah_pass }}'
@@ -132,7 +133,7 @@ The AWS scenario is created using Terraform and Ansible.
 ![aws template list](images/aws-template-list.png)
 
 Provisioning or Deprovisioning variables
-```
+```script
 ---
 infra_state: [present / absent]
 force_init: true
@@ -141,7 +142,7 @@ git_work_dir: /tmp/terraform/aws
 ```
 
 LoadBalancer, Smoke test & WS variables. ( WS only need the second variable)
-```
+```script
 ---
 lb_group_name: tag_type_dev_lb
 ws_group_name: tag_type_dev_web

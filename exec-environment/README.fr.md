@@ -1,4 +1,5 @@
 ## Créez un environnement d'exécution pour Ansible Automation Platform qui vous permet d'utiliser Terraform.
+Lisez ceci dans d'autres langues: :us:[ English/Anglais](README.md)
 
 ## Conditions préalables
 
