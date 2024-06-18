@@ -4,8 +4,3 @@
 
   roles:
     - role: azure-vm-provisioning
-      vars:
-        project_name: "{{ project_name }}"
-        res_group: "{{res_group }}"
-        instance_env: "{{ instance_env }}"
-        vm_type: "{{ vm_type }}"

@@ -57,60 +57,75 @@ Implementation diagram:
 
 ---
 
-#### Build the demo.
-
-For the demo we need and execution environment, you can find the info on how to [create and execution environment here](../exec-environment/README.md). You can also find an already compile version [here](https://quay.io/repository/froberge/ansible-terraform-demo).
-
-
 ##### General Steps
 
-* In `Ansible Automation Platform` create e new Credential Types to contain you Github Personal Access token. as follow.
-![github new credential](images/aap-github-credential-type.png)
-You can use these values to populate the fields.
-  * input configuration ( in yaml)
-    ```script
-      fields:
-      - id: git_user
-        type: string
-        label: Username
-      - id: git_token
-        type: string
-        label: Token
-        secret: true
-      - id: pah_pass
-        type: string
-        label: Vault Password
-        secret: true
-    required:
-      - username
-      - password
-      - pah_pass
-    ```
-  * Injector configuration ( in yaml )
-    ```script
-    env:
-    git_user: '{{ git_user }}'
-    pah_pass: '{{ pah_pass }}'
-    git_token: '{{ git_token }}'
-    ```
+* Create a project that point to the Source Control, Once this is done you are now ready to create the different templates needed.
 
-* Create a `Personal Access tokens` on your GitHub account. You can create a token under your account _settinggs -> Developer Settings_
-Great the token with the name you want, with the following credential, and the expiration date you desire.
-![github-token](images/github-token.png)
-:warning: Copy the generated key, you will need in another step.
-
-* Create the new Credential from the new type you just created with the `Personal Access tokens`
-![Github credential](images/aap_github-credential-of-new-type.png)
-
-
-* Create a project that point to the Source Control, Once this is done you are now ready to create the different templates needed
 ![aap-project](images/aap-project.png)
 
+* Create a credential of type source countrol to access the project in Github since the project is Private.
+![source-control](images/source-control.png)
+
+* Create and empty inventory to call the cloud provider.
+![empty-inventory](images/empty-inventory.png)
+
+---
 
 ##### Setting up each cloud provider.
 
 ###### AWS
 The AWS scenario is created using Terraform and Ansible.
+
+* Create the Execution environment and import it into AAP.
+
+  * We need an execution environment in order to have the Terraform collection. You can find the info on how to [create and execution environment here](../exec-environment/README.md) You can also find an already compile version [here](https://quay.io/repository/froberge/ansible-terraform-demo).
+
+  * In `Ansible Automation Platform`, add the newly created execution environment.
+    *  In the platform under Execution environment click `Add`
+    * Fill out the information.
+    ![execution environment](images/execution-env.png)
+
+* Create a new Crendital Type to contain Github Personal Access Token.
+  *  In `Ansible Automation Platform` create e new Credential Types to contain you Github Personal Access token. as follow.
+  ![github new credential](images/aap-github-credential-type.png)
+  You can use these values to populate the fields.
+      ```script
+      input configuration ( in yaml)
+
+        fields:
+        - id: git_user
+          type: string
+          label: Username
+        - id: git_token
+          type: string
+          label: Token
+          secret: true
+        - id: pah_pass
+          type: string
+          label: Vault Password
+          secret: true
+      required:
+        - username
+        - password
+        - pah_pass
+      ```
+
+      ```script
+      Injector configuration ( in yaml )
+
+      env:
+      git_user: '{{ git_user }}'
+      pah_pass: '{{ pah_pass }}'
+      git_token: '{{ git_token }}'
+      ```
+
+  * In `GitHub`, ceate a `Personal Access tokens` on your account. You can create a token under your account _settinggs -> Developer Settings_ Great the token with the name you want, with the following credential, and the expiration date you desire.
+  ![github-token](images/github-token.png)
+  :warning: Copy the generated key, you will need in another step.
+
+  * In `Ansible Automation Platform` Create the new Credential from the new type you just created with the `Personal Access tokens`
+  ![Github credential](images/aap_github-credential-of-new-type.png)
+
 
 * Create a Credential which contains your AWS credentials
 ![AWS credential](images/AWS-credentials.png)
@@ -147,11 +162,30 @@ LoadBalancer, Smoke test & WS variables. ( WS only need the second variable)
 lb_group_name: tag_type_dev_lb
 ws_group_name: tag_type_dev_web
 ```
+---
 
 ###### Azure
 The Azure scenario is created using only Ansible.
 
+* Create a Credential which contains your Azure credentials
+  * __Name:__ Choose a descriptive name for the credential.
+  * __Subscription ID:__ Enter the subscription id where your resources created in Azure should be associated
+  * __Client ID:__ Enter the appId value from the Service Principal creation.
+  * __Client Secret:__ Enter the password from the Service Principal creation.
+  * __Tenant ID:__ Enter the tenant from the Service Principal creation.
 
+![Azure credential](images/azure-credential.png)
+
+
+* Create the Execution environment and import it into AAP.
+
+  * We need an execution environment in order to have the Azure collection. You can find the info on how to [create and execution environment here](../exec-environment/README.md). You can also find an already compile version [here](https://quay.io/repository/froberge/ansible_cloud_deploy).
+
+* 1. Configure [Azure dynamic inventory](https://developers.redhat.com/articles/2023/09/04/how-use-dynamic-inventories-ansible-automation#how_to_use_dynamic_inventory_to_manage_aws_infrastructure).
+
+
+
+* Add the different element as job templates. with the required parameters.
 
 
 ---

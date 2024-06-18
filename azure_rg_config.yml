@@ -4,6 +4,3 @@
 
   roles:
     - role: azure-rg-config
-      vars:
-        project_name: "{{ project_name }}"
-        res_group: "{{res_group }}"
