@@ -191,13 +191,14 @@ The Azure scenario is created using only Ansible.
   ```
   ![credential_type](images/credential_type.png)
 
-*  Create a new credential from the credntial type you've just created. Use the public key previously created as a value.
-  :raising_hand: Add the new credential to the job that required the SSH key to be added.
+*  Create a new credential from the credential type you've just created. Use the public key previously created as a value.
 
-* Create a `Machine` credential type with containing the private key.
+:raising_hand: Add the new credential to the job that required the SSH key to be added.
+
+* Create a `Machine` credential type with containing the private key. Using the right username/password and private key.
+![machine_ssh](images/az-machine-ssh.png)
+
 :raising_hand: Add the new credential to the job that required to connect by ssh to the vms.
-
-
 
 * Configure [Azure dynamic inventory](https://developers.redhat.com/articles/2023/09/04/how-use-dynamic-inventories-ansible-automation#how_to_use_dynamic_inventory_to_manage_aws_infrastructure) and the source.
 
