@@ -92,7 +92,7 @@ The AWS scenario is created using Terraform and Ansible.
       ```script
       input configuration ( in yaml)
 
-        fields:
+      fields:
         - id: git_user
           type: string
           label: Username
@@ -114,9 +114,9 @@ The AWS scenario is created using Terraform and Ansible.
       Injector configuration ( in yaml )
 
       env:
-      git_user: '{{ git_user }}'
-      pah_pass: '{{ pah_pass }}'
-      git_token: '{{ git_token }}'
+        git_user: '{{ git_user }}'
+        pah_pass: '{{ pah_pass }}'
+        git_token: '{{ git_token }}'
       ```
 
   * In `GitHub`, ceate a `Personal Access tokens` on your account. You can create a token under your account _settinggs -> Developer Settings_ Great the token with the name you want, with the following credential, and the expiration date you desire.
@@ -181,11 +181,46 @@ The Azure scenario is created using only Ansible.
 
   * We need an execution environment in order to have the Azure collection. You can find the info on how to [create and execution environment here](../exec-environment/README.md). You can also find an already compile version [here](https://quay.io/repository/froberge/ansible_cloud_deploy).
 
-* 1. Configure [Azure dynamic inventory](https://developers.redhat.com/articles/2023/09/04/how-use-dynamic-inventories-ansible-automation#how_to_use_dynamic_inventory_to_manage_aws_infrastructure).
+* [Create an SSH Key](https://www.digitalocean.com/community/tutorials/how-to-create-ssh-keys-with-openssh-on-macos-or-linux). 
+
+* Create a new Credential Type to contain the public key of you've just created.
+  ```
+  This is the value that needs to be part of the env.
+  env:
+    AZURE_VM_SSH_PUBLIC_KEY: '{{ }}'
+  ```
+  ![credential_type](images/credential_type.png)
+
+*  Create a new credential from the credntial type you've just created. Use the public key previously created as a value.
+  :raising_hand: Add the new credential to the job that required the SSH key to be added.
+
+* Create a `Machine` credential type with containing the private key.
+:raising_hand: Add the new credential to the job that required to connect by ssh to the vms.
 
 
 
-* Add the different element as job templates. with the required parameters.
+* Configure [Azure dynamic inventory](https://developers.redhat.com/articles/2023/09/04/how-use-dynamic-inventories-ansible-automation#how_to_use_dynamic_inventory_to_manage_aws_infrastructure) and the source.
+
+  
+
+* Create the different job template
+  * Create Azure resource group. With the following variables.
+  ``` script
+  ---
+  project_name: "ansible-demo"
+  res_group: "ansible-demo"
+  ```
+
+  * Create the Load Balancer or the WebServer. With the following variables. Using the variable for WebServer or load Balancer depending on what you want to create.
+  ``` script
+  ---
+  instance_name_list: ['webserver1', 'webserver2'] / instance_name_list: [loadbalancer]
+  instance_env: "dev"
+  vm_type: "webserver" / vm_type: "lb"
+  project_name: "ansible-demo"
+  res_group: "ansible-demo"
+  ```
+
 
 
 ---
