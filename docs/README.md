@@ -29,11 +29,10 @@ Using Ansible and Terraform we will be deploying VM(s) in the cloud in order to 
 
 
 ###### Infrastructure
-For the complete demo we wil be using 3 cloud providers. The demo is build so you can elect to select only the cloud infrastructure you want.
+For the complete demo we wil be using 2 cloud providers. The demo is build so you can elect to select only the cloud infrastructure you want.
 
 * [AWS](https://aws.amazon.com/)
 * [Microsoft Azure](https://azure.microsoft.com/en-ca)
-* [Google Cloud Platform](https://cloud.google.com/)
 
 ###### Prerequisite
 * For local development
@@ -52,6 +51,7 @@ For the complete demo we wil be using 3 cloud providers. The demo is build so yo
 :warning: The required variable need to be set in order to create the load balancer in the proper cloud.[Set variable here]().
 
 Implementation diagram:
+:warning: The serviceNow entry point is optional. All can be run from Ansible Automation Platform.
 
 ![architecture diagram](images/infra.png)
 
@@ -59,7 +59,7 @@ Implementation diagram:
 
 ##### General Steps
 
-* Create a project that point to the Source Control, Once this is done you are now ready to create the different templates needed.
+* Create a project that point to the source control. Once this is done you are now ready to create the different templates needed.
 
 ![aap-project](images/aap-project.png)
 
@@ -127,7 +127,7 @@ The AWS scenario is created using Terraform and Ansible.
   ![Github credential](images/aap_github-credential-of-new-type.png)
 
 
-* Create a Credential which contains your AWS credentials
+* Create a Credential which contains your AWS information.
 ![AWS credential](images/AWS-credentials.png)
 
 * Ansible connects to EC2 instance using SSH. Let's start by creation a new [Key pair in AWS](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/getstarted-keypair.html). 
@@ -136,7 +136,7 @@ The AWS scenario is created using Terraform and Ansible.
   ![create-key-pair](images/create-key-pair.png)
   :warning: if you change the name you need to edit the terraform main  file with the new name.
 
-  * Create a credential of `type machine in AAP` which contains the SSH key for the user `ec2-user`
+  * Create a credential of `type machine in AAP` which contains the SSH private key for the user `ec2-user`
   ![create_credential_ssh_aws](images/create-credential-ssh-aws.png)
 
 * 1. Configure [AWS dynamic inventory](https://www.redhat.com/en/blog/configuring-an-aws-dynamic-inventory-with-automation-controller)
@@ -145,27 +145,27 @@ The AWS scenario is created using Terraform and Ansible.
 * Create the different templates needed in order to create the required workflow.
 ![aws workflow](images/aws-workflow.png)
 
-![aws template list](images/aws-template-list.png)
+  * Needed variables for the different templates
+  ```script
+  ---
+  infra_state: [present / absent]
+  force_init: true
+  git_repo_url: https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git
+  git_work_dir: /tmp/terraform/aws
+  lb_group_name: tag_type_dev_lb
+  ws_group_name: tag_type_dev_web
+  ```
 
-Provisioning or Deprovisioning variables
-```script
----
-infra_state: [present / absent]
-force_init: true
-git_repo_url: https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git
-git_work_dir: /tmp/terraform/aws
-```
+  * Template that need to run in `Privilege Escalation`
+    *  install_lb
+    *  install_ws
 
-LoadBalancer, Smoke test & WS variables. ( WS only need the second variable)
-```script
----
-lb_group_name: tag_type_dev_lb
-ws_group_name: tag_type_dev_web
-```
 ---
 
 ###### Azure
 The Azure scenario is created using only Ansible.
+
+![Azure workflow](images/azure_workflow.png)
 
 * Create a Credential which contains your Azure credentials
   * __Name:__ Choose a descriptive name for the credential.
@@ -183,7 +183,7 @@ The Azure scenario is created using only Ansible.
 
 * [Create an SSH Key](https://www.digitalocean.com/community/tutorials/how-to-create-ssh-keys-with-openssh-on-macos-or-linux). 
 
-* Create a new Credential Type to contain the public key of you've just created.
+* Create a new Credential Type to contain the public key you've just created.
   ```
   This is the value that needs to be part of the env.
   env:
@@ -211,8 +211,8 @@ The Azure scenario is created using only Ansible.
       key: tags
   ```
 
-* Create the different job template
-  * Variable used in the different template.
+* Create the different job templates
+  * Variable used in the different templates.
     * project_name: "ansible-demo"
     * res_group: "ansible-demo"
     * instance_name_list: ['webserver1', 'webserver2']
