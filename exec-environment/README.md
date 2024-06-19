@@ -1,7 +1,4 @@
-## Create an Execution Environement for Ansible Automation Platform which allows you to use terraform.
-Read this in other languages: :fr:[ French/Français](README.fr.md)
-
-
+## Create an Execution Environement for Ansible Automation Platform
 
 ## Prerequisites
 

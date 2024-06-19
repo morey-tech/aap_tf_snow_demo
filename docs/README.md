@@ -1,5 +1,4 @@
 # Ansible Cloud App Deployment
-Read this in other languages: :fr:[ French/Français](README.fr.md)
 
 #### Objective
 
