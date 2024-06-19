@@ -202,25 +202,31 @@ The Azure scenario is created using only Ansible.
 
 * Configure [Azure dynamic inventory](https://developers.redhat.com/articles/2023/09/04/how-use-dynamic-inventories-ansible-automation#how_to_use_dynamic_inventory_to_manage_aws_infrastructure) and the source.
 
-  
+  ``` script
+  source varibles to get groups from Cloud Providers.
+
+  ---
+  keyed_groups:
+    - prefix: tag
+      key: tags
+  ```
 
 * Create the different job template
-  * Create Azure resource group. With the following variables.
-  ``` script
-  ---
-  project_name: "ansible-demo"
-  res_group: "ansible-demo"
-  ```
+  * Variable used in the different template.
+    * project_name: "ansible-demo"
+    * res_group: "ansible-demo"
+    * instance_name_list: ['webserver1', 'webserver2']
+    * instance_name_list: [loadbalancer]
+    * instance_env: "dev"
+    * vm_type: "webserver"
+    * vm_type: "lb"
+    * lb_group_name: "tag_type_dev_lb"
+    * ws_group_name: "tag_type_dev_webserver"
+  
 
-  * Create the Load Balancer or the WebServer. With the following variables. Using the variable for WebServer or load Balancer depending on what you want to create.
-  ``` script
-  ---
-  instance_name_list: ['webserver1', 'webserver2'] / instance_name_list: [loadbalancer]
-  instance_env: "dev"
-  vm_type: "webserver" / vm_type: "lb"
-  project_name: "ansible-demo"
-  res_group: "ansible-demo"
-  ```
+  * Template that need to run in `Privilege Escalation`
+    *  install_lb
+    *  install_ws
 
 
 
