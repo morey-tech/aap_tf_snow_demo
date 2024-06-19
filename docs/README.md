@@ -200,7 +200,7 @@ The Azure scenario is created using only Ansible.
 
 :raising_hand: Add the new credential to the job that required to connect by ssh to the vms.
 
-* Configure [Azure dynamic inventory](https://developers.redhat.com/articles/2023/09/04/how-use-dynamic-inventories-ansible-automation#how_to_use_dynamic_inventory_to_manage_aws_infrastructure) and the source.
+* Configure [Azure dynamic inventory](https://www.redhat.com/en/blog/configuring-an-aws-dynamic-inventory-with-automation-controller).
 
   ``` script
   source varibles to get groups from Cloud Providers.
@@ -228,6 +228,48 @@ The Azure scenario is created using only Ansible.
     *  install_lb
     *  install_ws
 
-
-
 ---
+
+###### Config the Sent Notification
+
+To Send notification, we use gmail as the email sender. So you need a gmail account
+
+* [Enable less secure application](https://knowledge.workspace.google.com/kb/how-to-enable-less-secure-application-access-000006971)
+
+* Create a Crendential type that contain de required information to create the gmail credential.
+
+  ```script
+  ---
+  fields:
+    - id: email_username
+      type: string
+      label: Username
+    - id: email_password
+      type: string
+      label: Password
+      secret: true
+  required:
+    - Username
+    - Password
+  ```
+
+  ``` script
+  ---
+  env:
+    email_username: '{{ email_username }}'
+    email_password: '{{ email_password }}'
+  ```
+
+  ![gmail_credential_type](images/gmail_account_type.png)
+
+* Create the gmail Credential
+  ![gmail_account](images/gmail_account.png)
+
+* Create the require template to sent email.
+  * Variables
+    * recipient
+    * subject
+    * body
+
+  ![sentnotification-template](images/sentnotification-sucess.png)
+
