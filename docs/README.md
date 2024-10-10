@@ -140,6 +140,9 @@ The AWS scenario is created using Terraform and Ansible.
 
 * 1. Configure [AWS dynamic inventory](https://www.redhat.com/en/blog/configuring-an-aws-dynamic-inventory-with-automation-controller)
 
+  * Define the different tags for the groups 
+    ![group_tags](images/dynamic_infra_aws_tags.png)
+
 
 * Create the different templates needed in order to create the required workflow.
 ![aws workflow](images/aws-workflow.png)
