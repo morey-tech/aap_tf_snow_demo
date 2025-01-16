@@ -1,6 +1,6 @@
 ---
 - name: Provision VM in AWS with Terraform
-  hosts: localhost
+  
 
   roles:
     - role: terraform-vm-provisioning
