@@ -1,14 +1,17 @@
 ---
 - name: Provision VM in AWS with Terraform
-  hosts: localhost  
+  hosts: localhost
 
   roles:
     - role: terraform-vm-provisioning
       vars:
         infra_state: "{{ infra_state }}"
-        force_init: "{{ force_init }}"
+        force_init: true
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
-        git_repo_url: "{{ git_repo_url }}"
-        git_work_dir: "{{ git_work_dir }}"
+        git_repo_url: "https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git"
+        git_work_dir: "/tmp/terraform/aws"
         pah_pass: '{{ lookup("env", "pah_pass") }}'
+        git_name: "AAP service account"
+        git_email: "cloudAutomation_aap@company.com"
+        request_id: "{{ request_id }}"

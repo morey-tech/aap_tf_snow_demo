@@ -9,7 +9,7 @@
 - name: Decrypt terraform states files
   ansible.builtin.expect:
     command: 'ansible-vault decrypt terraform.tfstate terraform.tfstate.backup terraform.tfvars'
-    chdir: "{{ git_work_dir }}" 
+    chdir: "{{ git_work_dir }}"
     responses:
       password: "{{ pah_pass }}"
 
@@ -18,7 +18,7 @@
     project_path: "{{ git_work_dir }}"
     # For a destroy we need this to be absent and false
     state: "{{ infra_state }}"
-    force_init: "{{ force_init }}"        
+    force_init: "{{ force_init }}"
   register: terraformInfra
 
 - name: Encrypt terraform states files
