@@ -17,3 +17,7 @@
         validate_certs: no
         status_code: 200
       when: "'{{ ws_group_name }}' in group_names"
+
+    - name: print request_id
+      ansible.builtin.debug:
+        var: request_id   

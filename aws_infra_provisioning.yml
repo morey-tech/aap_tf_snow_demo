@@ -15,3 +15,8 @@
         git_name: "AAP service account"
         git_email: "cloudAutomation_aap@company.com"
         request_id: "{{ request_id }}"
+
+  tasks:
+    - name: print request_id
+      ansible.builtin.debug:
+        var: request_id

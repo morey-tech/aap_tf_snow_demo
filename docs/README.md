@@ -154,8 +154,8 @@ The AWS scenario is created using Terraform and Ansible.
   force_init: true
   git_repo_url: https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git
   git_work_dir: /tmp/terraform/aws
-  lb_group_name: tag_type_dev_lb
-  ws_group_name: tag_type_dev_web
+  lb_group_name: tag_dev_lb
+  ws_group_name: tag_dev_web
   ```
 
   * Template that need to run in `Privilege Escalation`
