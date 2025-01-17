@@ -2,7 +2,7 @@
 # tasks file for terraform-provisioning
 - name: Git checkout
   ansible.builtin.git:
-    repo: '{{ git_repo_url }}'
+    repo: "{{ git_repo_url }}"
     dest: /tmp/terraform
     version: main
 
