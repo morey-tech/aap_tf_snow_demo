@@ -6,7 +6,7 @@
     - role: terraform-vm-provisioning
       vars:
         infra_state: "{{ infra_state }}"
-        force_init: true
+        force_init: "{{ force_init }}" 
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
         git_repo_url: "https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git"
