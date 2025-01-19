@@ -8,4 +8,4 @@
   tasks:
     - name: Print request_id
       ansible.builtin.debug:
-        var: itsm-request-id
+        var: "{{ itsm_request_id }}"

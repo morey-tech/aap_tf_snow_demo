@@ -22,5 +22,6 @@
         var: request_id
 
     - name: Save the Request_Id for later
-      ansible.builtin.set_fact:
-        itsm-request-id: request_id
+      ansible.builtin.set_stats:
+        data:
+          itsm_request_id: request_id
