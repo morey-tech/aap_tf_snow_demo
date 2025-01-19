@@ -5,19 +5,19 @@
   tasks:
 
     - name: Confirm that the load balancer return a 200 code
-      uri:
+      ansible.builtin.:
         url: "http://{{ ansible_host }}:80"
-        validate_certs: no
+        validate_certs: false
         status_code: 200
       when: "'{{ lb_group_name }}' in group_names"
 
     - name: Confirm that the web server return a 200 code
       uri:
         url: "http://{{ ansible_host }}:8080"
-        validate_certs: no
+        validate_certs: false
         status_code: 200
       when: "'{{ ws_group_name }}' in group_names"
 
-    - name: print request_id
+    - name: Print request_id
       ansible.builtin.debug:
-        var: request_id   
+        var: itsm-request-id

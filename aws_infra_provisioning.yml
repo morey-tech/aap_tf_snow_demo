@@ -17,6 +17,10 @@
         request_id: "{{ request_id }}"
 
   tasks:
-    - name: print request_id
+    - name: Print request_id
       ansible.builtin.debug:
         var: request_id
+
+    - name: Save the Request_Id for later
+      ansible.builtin.set_fact:
+        itsm-request-id: request_id
