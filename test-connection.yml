@@ -5,7 +5,7 @@
   tasks:
 
     - name: Confirm that the load balancer return a 200 code
-      ansible.builtin.:
+      uri:
         url: "http://{{ ansible_host }}:80"
         validate_certs: false
         status_code: 200
