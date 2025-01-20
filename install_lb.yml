@@ -4,6 +4,10 @@
   gather_facts: false
 
   # Make sure the system is reachable
+
+  vars:
+    tag_lb: "{{ lb_group_name }}"
+
   pre_tasks:
     - name: Wait for system to become reachable
       ansible.builtin.wait_for_connection:
@@ -14,5 +18,10 @@
   roles:
     - role: haproxy-config
       vars:
-        lb_group_name: "{{ lb_group_name }}"
+        lb_group_name: "tag_Prod_lb"
         ws_group_name: "{{ ws_group_name }}"
+
+  tasks:
+    - name: Print tag_lb
+      ansible.builtin.debug:
+       var: tag_lb
