@@ -7,7 +7,7 @@ eap_version: 7.4
 eap_link: https://www.dropbox.com/s/ukq5tbrfegkz313/jboss-eap-7.4.0.zip?dl=1
 eap_archive: jboss-eap-7.4.0.zip
 eap_home: "{{ eap_deploy_dir }}/jboss-eap-{{eap_version}}"
-eap_all: "{{ eap_deploy_dir }}/jboss-eap-*/" 
+eap_all: "{{ eap_deploy_dir }}/jboss-eap-*/"
 rhel_initd: /etc/init.d
 jboss_eap_service_conf_dir: "/etc/default"
 app_url: 'https://drive.google.com/uc?export=download&id=1w9ss5okctnjUvRAxhPEPyC7DmbUwmbhb'

@@ -2,7 +2,7 @@
 # tasks file for haproxy-config
 - name: Configure HA Load Balancer with haproxy
 
-  block: 
+  block:
       # epel = Extra Packages for Enterprise Linux
     - name: Ensure the epel repo is present
       yum:
@@ -10,17 +10,17 @@
         disable_gpg_check: yes
         state: present
 
-    - name: install haproxy
+    - name: Install haproxy
       package:
         name: haproxy
         state: present
 
-    - name: copy haproxy conf
+    - name: Copy haproxy conf
       template:
         src: templates/haproxy.cfg.j2
         dest: /etc/haproxy/haproxy.cfg
 
-    - name: start and enable haproxy
+    - name: Start and enable haproxy
       service:
         name: haproxy
         state: started
