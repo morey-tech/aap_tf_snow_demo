@@ -1,16 +1,16 @@
 ---
 - name: Configure JBoss EAP Server
   hosts: all
-  gather_facts: no
+  gather_facts: false
 
   # Make sure the system is reachable
-  pre_task:
+  pre_tasks:
     - name: Wait for system to become reachable
-      wait_for_connection:
+      ansible.builtin.wait_for_connection:
 
     - name: Gather facts for the first time
-      setup:
-
+      ansible.builtin.setup:
+      
   roles:
     - role: jboss-eap-config
       when: "'{{ ws_group_name }}' in group_names"
