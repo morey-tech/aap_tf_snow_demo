@@ -1,6 +1,15 @@
 ---
 - name: Configure Haproxy Load Balancer
   hosts: all
+  gather_facts: no
+
+  # Make sure the system is reachable
+  pre_task:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+
+    - name: Gather facts for the first time
+      setup:
 
   roles:
     - role: haproxy-config
