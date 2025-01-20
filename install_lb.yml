@@ -11,13 +11,6 @@
     - name: Gather facts for the first time
       ansible.builtin.setup:
 
-  roles:
-    - role: haproxy-config
-      vars:
-        lb_group_name: "{{ lb_group_name }}"
-        ws_group_name: "{{ ws_group_name }}"
-
-  tasks:
     - name: Print lb_group_name
       ansible.builtin.debug:
         msg: "{{ lb_group_name }}"
@@ -25,3 +18,10 @@
     - name: Print ws_group_name
       ansible.builtin.debug:
         msg: "{{ ws_group_name }}_web"
+
+
+  roles:
+    - role: haproxy-config
+      vars:
+        lb_group_name: "{{ lb_group_name }}"
+        ws_group_name: "{{ ws_group_name }}"
