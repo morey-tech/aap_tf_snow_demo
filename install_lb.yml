@@ -11,15 +11,6 @@
     - name: Gather facts for the first time
       ansible.builtin.setup:
 
-    - name: Print lb_group_name
-      ansible.builtin.debug:
-        msg: "{{ lb_group_name }}"
-
-    - name: Print ws_group_name
-      ansible.builtin.debug:
-        msg: "{{ ws_group_name }}"
-
-
   roles:
     - role: haproxy-config
       vars:

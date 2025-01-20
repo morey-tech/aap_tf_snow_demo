@@ -1,6 +1,6 @@
 ---
 # tasks file for haproxy-config
-- name: Print lb_group_name
+- name: Print lb_group_name in Role
   ansible.builtin.debug:
     msg: "{{ lb_group_name }}"
 
@@ -29,4 +29,4 @@
         name: haproxy
         state: started
         enabled: true
-  when: "'{{ lb_group_name }}'  in group_names"
+  when: "{{ lb_group_name }} in group_names"
