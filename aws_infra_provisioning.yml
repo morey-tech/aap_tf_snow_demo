@@ -24,5 +24,5 @@
       ansible.builtin.set_stats:
         data:
           itsm_request_id: "{{ request_id }}"
-          lb_group_name: "{{ instance_env }}_lb"
-          ws_group_name: "{{ instance_env }}_web"
+          lb_group_name: "tag_{{ instance_env }}_lb"
+          ws_group_name: "tag_{{ instance_env }}_web"
