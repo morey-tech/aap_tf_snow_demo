@@ -10,7 +10,7 @@
 
     - name: Gather facts for the first time
       ansible.builtin.setup:
-      
+
   roles:
     - role: jboss-eap-config
       when: "'{{ ws_group_name }}' in group_names"

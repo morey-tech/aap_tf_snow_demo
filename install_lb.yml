@@ -20,8 +20,8 @@
   tasks:
     - name: Print lb_group_name
       ansible.builtin.debug:
-        msg: "{{ instance_env }}_lb"
+        msg: "{{ lb_group_name }}"
 
     - name: Print ws_group_name
       ansible.builtin.debug:
-        msg: "{{ instance_env }}_web"
+        msg: "{{ ws_group_name }}_web"
