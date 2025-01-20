@@ -19,6 +19,8 @@
     # For a destroy we need this to be absent and false
     state: "{{ infra_state }}"
     force_init: "{{ force_init }}"
+    variables:
+      webserver_count: "{{ server_count }}"
   register: terraformInfra
 
 - name: Encrypt terraform states files
