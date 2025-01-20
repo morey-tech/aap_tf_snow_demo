@@ -2,6 +2,19 @@
 - name: Test connection to the vm with a curl
   hosts: all
 
+  pre_tasks:
+    - name: Print request_id
+      ansible.builtin.debug:
+        msg: "{{ itsm_request_id }}"
+
+    - name: Print lb_group_name
+      ansible.builtin.debug:
+        msg: "{{ lb_group_name }}"
+
+    - name: Print ws_group_name
+      ansible.builtin.debug:
+        msg: "{{ ws_group_name }}"
+
   tasks:
 
     - name: Confirm that the load balancer return a 200 code
@@ -17,16 +30,3 @@
         validate_certs: false
         status_code: 200
       when: "'{{ ws_group_name }}' in group_names"
-
-    - name: Print request_id
-      ansible.builtin.debug:
-        msg: "{{ itsm_request_id }}"
-
-    - name: Print lb_group_name
-      ansible.builtin.debug:
-        msg: "{{ lb_group_name }}"
-
-    - name: Print ws_group_name
-      ansible.builtin.debug:
-        msg: "{{ ws_group_name }}"
-
