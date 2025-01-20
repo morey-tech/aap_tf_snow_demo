@@ -8,6 +8,9 @@
         infra_state: "{{ infra_state }}"
         force_init: "{{ force_init }}"
         server_count: "{{ server_count }}"
+        prefix_instance_name: "{{ instance_name }}"
+        instance_env: "{{ environment }}"
+        project_name: "RHUG_ServiceNow_Ansible_Terraform_Demo"
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
         git_repo_url: "https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git"
@@ -17,9 +20,9 @@
         git_email: "cloudAutomation_aap@company.com"
 
   tasks:
-    - name: Print request_id
+    - name: Print server_count
       ansible.builtin.debug:
-        msg: "{{ request_id }}"
+        msg: "{{ server_count }}"
 
     - name: Save the Request_Id for later
       ansible.builtin.set_stats:

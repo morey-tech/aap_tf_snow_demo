@@ -21,6 +21,10 @@
     force_init: "{{ force_init }}"
     variables:
       webserver_count: "{{ server_count }}"
+      instance_name_lb: "{{ prefix_instance_name }}_lb"
+      instance_name_webserver: "{{ prefix_instance_name }}_web"
+      instance_env: "{{ instance_env }}"
+      project_name: "{{ project_name }}"
   register: terraformInfra
 
 - name: Encrypt terraform states files
