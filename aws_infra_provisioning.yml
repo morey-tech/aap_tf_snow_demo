@@ -14,14 +14,13 @@
         pah_pass: '{{ lookup("env", "pah_pass") }}'
         git_name: "AAP service account"
         git_email: "cloudAutomation_aap@company.com"
-        request_id: "{{ request_id }}"
 
   tasks:
     - name: Print request_id
       ansible.builtin.debug:
-        var: request_id
+        msg: "{{ request_id }}"
 
     - name: Save the Request_Id for later
       ansible.builtin.set_stats:
         data:
-          itsm_request_id: request_id
+          itsm_request_id: "{{ request_id }}"
