@@ -1,4 +1,2 @@
 ---
 # vars file for haproxy-config
-lb_group_name: "{{ lb_group_name }}"
-ws_group_name: "{{ ws_group_name }}"

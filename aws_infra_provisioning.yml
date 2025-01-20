@@ -20,9 +20,14 @@
         git_email: "cloudAutomation_aap@company.com"
 
   tasks:
-    - name: Print server_count
+    - name: Print lb_group_name
       ansible.builtin.debug:
-        msg: "{{ instance_env }}"
+        msg: "{{ instance_env }}_lb"
+
+    - name: Print ws_group_name
+      ansible.builtin.debug:
+        msg: "{{ instance_env }}_web"
+
 
   #   - name: Save the Request_Id for later
   #     ansible.builtin.set_stats:
