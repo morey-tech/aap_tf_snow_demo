@@ -1,5 +1,9 @@
 ---
 # tasks file for haproxy-config
+- name: Print lb_group_name
+  ansible.builtin.debug:
+    msg: "{{ lb_group_name }}"
+
 - name: Configure HA Load Balancer with haproxy
 
   block:
@@ -25,4 +29,4 @@
         name: haproxy
         state: started
         enabled: true
-  when: "'tag_Prod_lb' in group_names"
+  when: "'{{ lb_group_name }}'  in group_names"
