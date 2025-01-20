@@ -9,7 +9,7 @@
         force_init: "{{ force_init }}"
         server_count: "{{ server_count }}"
         prefix_instance_name: "{{ instance_name }}"
-        instance_env: "{{ environment }}"
+        instance_env: "{{ instance_env }}"
         project_name: "RHUG_ServiceNow_Ansible_Terraform_Demo"
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
@@ -22,7 +22,7 @@
   tasks:
     - name: Print server_count
       ansible.builtin.debug:
-        msg: "{{ environment }}"
+        msg: "{{ instance_env }}"
 
   #   - name: Save the Request_Id for later
   #     ansible.builtin.set_stats:
