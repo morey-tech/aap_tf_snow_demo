@@ -4,8 +4,3 @@
 
   roles:
     - role: haproxy-config
-
-  tasks:
-    - name: Print request_id
-      ansible.builtin.debug:
-        msg: "{{ itsm_request_id }}"
