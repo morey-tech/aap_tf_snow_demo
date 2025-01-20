@@ -29,4 +29,4 @@
         name: haproxy
         state: started
         enabled: true
-  when: "{{ lb_group_name }} in group_names"
+  when: inventory_hostname in groups['{{ lb_group_name }}']
