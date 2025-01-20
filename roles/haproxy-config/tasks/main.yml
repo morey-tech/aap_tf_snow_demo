@@ -25,4 +25,4 @@
         name: haproxy
         state: started
         enabled: true
-  when: "{{ lb_group_name }} in group_names"
+  when: "'tag_Prod_lb' in group_names"
