@@ -4,9 +4,6 @@
   gather_facts: false
 
   # Make sure the system is reachable
-  vars:
-    tag_lb: "{{ lb_group_name }}"
-
   pre_tasks:
     - name: Wait for system to become reachable
       ansible.builtin.wait_for_connection:
