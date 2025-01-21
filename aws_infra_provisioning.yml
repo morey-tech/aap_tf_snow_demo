@@ -10,7 +10,7 @@
         server_count: "{{ server_count }}"
         prefix_instance_name: "{{ instance_name }}"
         instance_env: "{{ instance_env }}"
-        project_name:  "{{ project_name }}"
+        project_name: "{{ project_name }}"
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
         git_repo_url: "https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git"
