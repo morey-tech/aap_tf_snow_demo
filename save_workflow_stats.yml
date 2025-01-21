@@ -1,0 +1,17 @@
+---
+- name: Save the different variable used in the workflow
+  hosts: localhost
+
+  tasks:
+    - name: Save the Request_Id for later
+      ansible.builtin.set_stats:
+        data:
+          infra_state: "{{ infra_state }}"
+          force_init: "{{ force_init }}"
+          server_count: "{{ server_count }}"
+          prefix_instance_name: "{{ instance_name }}"
+          instance_env: "{{ instance_env }}"
+          project_name: "RHUG_ServiceNow_Ansible_Terraform_Demo"
+          itsm_request_id: "{{ request_id }}"
+          lb_group_name: "tag_{{ instance_env }}_lb"
+          ws_group_name: "tag_{{ instance_env }}_web"
