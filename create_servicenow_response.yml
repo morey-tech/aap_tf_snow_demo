@@ -19,4 +19,4 @@
     - name: Set the response_status
       ansible.builtin.set_stats:
         data:
-          response_status: "OK"
+          response_status: OK
