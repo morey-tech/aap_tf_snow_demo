@@ -3,7 +3,7 @@
   hosts: localhost
 
   tasks:
-    - name: Save the Request_Id for later
+    - name: Save the value for the workflow for later use
       ansible.builtin.set_stats:
         data:
           infra_state: "{{ infra_state }}"

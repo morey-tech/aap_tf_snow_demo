@@ -1,0 +1,22 @@
+---
+- name: Create the servicenow ticket informatiomn
+  hosts: localhost
+
+  tasks:
+    - name: Set the loadbalancer url
+      ansible.builtin.set_stats:
+        data:
+          response_url: "http://{{ ansible_host }}/info"
+      when: "lb_group_name in group_names"
+
+    - name: Set the hostnames
+      ansible.builtin.set_stats:
+        data:
+          response_hostnames: "Hostname: {{ ansible_host }} | list"
+        per_host: true
+      when: "ws_group_name in group_names"
+
+    - name: Set the response_status
+      ansible.builtin.set_stats:
+        data:
+          response_status: "OK"
