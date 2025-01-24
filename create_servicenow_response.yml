@@ -25,6 +25,8 @@
         data:
           response_status: OK
 
+
+  post_tasks:
     - name: Print request_id
       ansible.builtin.debug:
         msg: '{{ itsm_request_id }}'
