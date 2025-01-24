@@ -27,7 +27,7 @@
 
     - name: Print request_id
       ansible.builtin.debug:
-        msg: "{{ itsm_request_id }}"
+        msg: itsm_request_id 
 
     - name: Print response_url
       ansible.builtin.debug:
