@@ -3,6 +3,11 @@
   hosts: localhost
 
   tasks:
+    - name: Set the request_id
+      ansible.builtin.set_stats:
+        data:
+          itsm_request_id: "{{ request_id }}"
+
     - name: Set the loadbalancer url
       ansible.builtin.set_stats:
         data:
@@ -19,3 +24,15 @@
       ansible.builtin.set_stats:
         data:
           response_status: OK
+
+    - name: Print request_id
+      ansible.builtin.debug:
+        msg: "{{ itsm_request_id }}"
+
+    - name: Print response_url
+      ansible.builtin.debug:
+        msg: "{{ response_url }}"
+
+    - name: Print response_hostnames
+      ansible.builtin.debug:
+        msg: "{{ response_hostnames }}"
