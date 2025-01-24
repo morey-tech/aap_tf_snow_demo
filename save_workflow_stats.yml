@@ -1,6 +1,5 @@
 ---
 - name: Save the different variable used in the workflow
-  hosts: localhost
 
   tasks:
     - name: Save the value for the workflow for later use

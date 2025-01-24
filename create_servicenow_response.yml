@@ -1,6 +1,5 @@
 ---
 - name: Create the servicenow ticket informatiomn
-  hosts: localhost
 
   tasks:
     - name: Set the request_id

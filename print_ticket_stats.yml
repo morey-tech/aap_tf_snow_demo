@@ -1,6 +1,5 @@
 ---
 - name: Save the different variable used in the workflow
-  hosts: localhost
 
   tasks:
     - name: Print request_id
