@@ -24,17 +24,3 @@
       ansible.builtin.set_stats:
         data:
           response_status: OK
-
-
-  post_tasks:
-    - name: Print request_id
-      ansible.builtin.debug:
-        msg: '{{ itsm_request_id }}'
-
-    - name: Print response_url
-      ansible.builtin.debug:
-        msg: '{{ response_url }}'
-
-    - name: Print response_hostnames
-      ansible.builtin.debug:
-        msg: '{{ response_hostnames }}'
