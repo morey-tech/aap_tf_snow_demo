@@ -1,5 +1,6 @@
 ---
-- name: Create the servicenow ticket informatiomn
+- name: Create the servicenow ticket information
+  hosts: all
 
   tasks:
     - name: Set the request_id

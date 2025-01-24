@@ -1,5 +1,6 @@
 ---
 - name: Save the different variable used in the workflow
+  hosts: all
 
   tasks:
     - name: Save the value for the workflow for later use

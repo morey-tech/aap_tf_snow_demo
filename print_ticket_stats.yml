@@ -1,5 +1,6 @@
 ---
 - name: Save the different variable used in the workflow
+  hosts: all
 
   tasks:
     - name: Print request_id
