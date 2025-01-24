@@ -17,10 +17,11 @@
     - name: Set the hostnames
       ansible.builtin.set_stats:
         data:
-          response_hostnames: "Hostname: {{ ansible_host }}"
+          response_hostnames: "Hostname: {{ ansible_host }} \n"
       when: "ws_group_name in group_names"
 
     - name: Set the response_status
       ansible.builtin.set_stats:
         data:
           response_status: OK
+        aggregate: false
