@@ -1,6 +1,8 @@
 ---
-- name: Send mail notification
+- name: Sending mail notification
   hosts: localhost
+  collections:
+    - community.general.mail
 
   roles:
     - role: sent_mail
