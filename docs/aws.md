@@ -2,6 +2,10 @@
 
 The AWS scenario is created using Terraform and Ansible.
 
+:warning:  To get this working you need a fork of the [ansible terraform config repository](https://github.com/froberge/ansible_terraform_skeleton) or your own terraform code repository that deploy on AWS. IF you use your own, don't forget to adjust the code in possibly both repository.
+
+## STEP
+
 * Create the Execution environment and import it into AAP.
 
   * We need an execution environment in order to have the Terraform collection. You can find the info on how to [create and execution environment here](../exec-environment/README.md) You can also find an already compile version [here](https://quay.io/repository/froberge/ansible-terraform-demo).
