@@ -13,8 +13,8 @@
         project_name: "{{ project_name }}"
         git_user: '{{ lookup("env", "git_user") }}'
         git_token: '{{ lookup("env", "git_token") }}'
-        git_repo_url: "https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git"
-        git_work_dir: "/tmp/terraform/aws"
+        git_repo_url: "{{ git_repo_url }}"
+        git_work_dir: "{{ git_work_dir }}"
         pah_pass: '{{ lookup("env", "pah_pass") }}'
         git_name: "AAP service account"
         git_email: "cloudAutomation_aap@company.com"
