@@ -90,9 +90,9 @@ The AWS scenario is created using Terraform and Ansible.
     git_work_dir: /tmp/terraform/aws
   ```
 
-  :raising_hand: * To `deprovision`, use the same variable as above but change the infra_state to absent.
+  :raising_hand: To `deprovision`, use the same variable as above but change the infra_state to absent.
 
-  * Needed variables for the other templates
+  * Posssible variable for the other templates
   ```script
   ---
   infra_state: [present / absent]
