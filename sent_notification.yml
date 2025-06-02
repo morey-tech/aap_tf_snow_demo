@@ -1,6 +1,6 @@
 ---
 - name: Sending mail notification
-  hosts: localhost
+  hosts: all
 
   roles:
     - role: sent_mail
