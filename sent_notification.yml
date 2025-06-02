@@ -2,6 +2,9 @@
 - name: Sending mail notification
   hosts: all
 
+  collections:
+    community.general.mail
+
   roles:
     - role: sent_mail
       vars:
