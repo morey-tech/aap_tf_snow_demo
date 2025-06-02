@@ -78,17 +78,19 @@ The AWS scenario is created using Terraform and Ansible.
 * Create the different templates needed in order to create the required workflow.
 ![aws workflow](images/aws-workflow.png)
 
-  * The following variable are needed in order for the [aws_infra_provisioning playbook](../aws_infra_provisioning.yml) to work.
+  * The following variable are needed in order for the [aws_infra_provisioning playbook](../aws_infra_provisioning.yml) to work for `provisionning`.
   ```
-    infra_state: [present / absent]
+    infra_state: present
     force_init: true
     server_count: 
     prefix_instance_name: 
     instance_env: 
     project_name: 
-    git_repo_url: ex: https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git
+    git_repo_url: [example: https://{{ git_user }}:{{ git_token }}@github.com/froberge/ansible_terraform_config.git]
     git_work_dir: /tmp/terraform/aws
   ```
+
+  :raising_hand: * To `deprovision`, use the same variable as above but change the infra_state to absent.
 
   * Needed variables for the other templates
   ```script
