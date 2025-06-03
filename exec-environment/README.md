@@ -58,6 +58,10 @@
         ```script
         ansible-builder build -v 3 -t ${imageName}:latest
         ```
+    :information_desk_person: If you build on mac, to make sure you build for the right OS use this:
+    ```script
+        ansible-builder build --extra-build-cli-args="--platform linux/amd64" -v 3 -t ${imageName}:latest
+    ```
     1. Let's tag the images, one tag with the version one with latest. ( in this command I use my quay registry, change for your location.)
         ```script
         podman tag ${imageName}:latest quay.io/froberge/${imageName}:latest

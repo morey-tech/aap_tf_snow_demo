@@ -1,9 +1,6 @@
 ---
 - name: Sending mail notification
-  hosts: all
-
-  collections:
-    community.general.mail
+  hosts: localhost
 
   roles:
     - role: sent_mail
