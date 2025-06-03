@@ -81,3 +81,6 @@
 ---
 
 :information_desk_person: The already build image is available at this address [quay.io/froberge](https://quay.io/repository/froberge/ansible-terraform-all?tab=tags)
+
+:information_desk_person: You can check a Execution Environment by running it with podman in ssh.
+``` podman run -it --entrypoint sh [IMAGE_NAME] ```
