@@ -1,0 +1,14 @@
+---
+- name: Detect EC2 Shutdown
+  host: localhost
+  source:
+    - ansible.eda.aws_cloudtrail:
+      region_name: 'us-est-2'
+
+  rules:
+    - name: Monitor StopInstances Events
+      condition: event.CloudTrailEvent.eventName == "StopInstances"
+      actions:
+        run_playbook:
+          name: ec2_shutdown_demo.yml
+      
