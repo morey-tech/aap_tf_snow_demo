@@ -6,8 +6,8 @@
   sources:
     - ansible.eda.aws_cloudtrail:
       access_key: "{{ lookup('env', 'aws_access_key_id') }}"
-      secret_key: "{{ lookup('env', 'aws_secret_accee_key') }}"
-      region: us-east-2
+      secret_key: "{{ lookup('env', 'aws_secret_access_key') }}"
+      region: 'us-east-2'
 
   rules:
     - name: Monitor StopInstances Events
