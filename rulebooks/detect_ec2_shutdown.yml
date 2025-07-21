@@ -1,7 +1,7 @@
 ---
 
 - name: Detect EC2 Shutdown
-  host: localhost
+  hosts: localhost
   sources:
     - ansible.eda.aws_cloudtrail:
       access_key: "{{ lookup('env', 'aws_access_key_id') }}"
@@ -14,4 +14,3 @@
       action:
         run_playbook:
           name: ec2_shutdown_demo.yml
-      
