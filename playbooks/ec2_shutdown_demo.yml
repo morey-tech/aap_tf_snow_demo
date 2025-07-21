@@ -1,0 +1,9 @@
+---
+
+- name: Handle EC2 instance shutdown
+  hosts: localhost
+
+  tasks:
+    - name: Print event details
+      ansible.builtin.debug:
+        msg: "EC2 instance {{ ansible_eda.event.CloudTrailEvent.requestParameters.instanceId }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
