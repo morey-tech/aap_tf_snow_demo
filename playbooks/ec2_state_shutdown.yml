@@ -7,8 +7,8 @@
 
     - name: Debug full event
       ansible.builtin.debug:
-        var: ec2_event
+        var: ansible_eda
 
     - name: Print event details
       ansible.builtin.debug:
-        msg: "EC2 instance {{ ec2_event.requestParameters.instanceId }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
+        msg: "EC2 instance {{ ansible_eda.event.requestParameters.instancesSet[0].instanceId }} stopped at {{ ansible_eda.event.eventTime }}"
