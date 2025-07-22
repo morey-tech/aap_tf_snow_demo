@@ -31,9 +31,9 @@
 
     - name: Create ServiceNow ticket
       servicenow.itsm.incident:
-        username: "{{ servicenow_username }}"
-        password: "{{ servicenow_password }}"
-        instance: "{{ servicenow_instance }}"
+        username: "{{ SERVICENOW_USERNAME }}"
+        password: "{{ SERVICENOW_PASSWORD }}"
+        instance: "{{ SERVICENOW_INSTANCE }}"
         table: incident
         data:
           short_description: "The EC2 {{ instance_id }} was stopped"
