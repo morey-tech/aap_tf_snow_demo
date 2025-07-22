@@ -38,7 +38,7 @@
         state: new
         short_description: "The EC2 {{ instance_id }} was stopped"
         description: |
-          The EC2 {{ ec2_info.instances[0].tags.Name }} in project: {{ project_nameec2_info.instances[0].tags.project }} (ID: {{ instance_id }}) has stopped.
+          The EC2 {{ ec2_info.instances[0].tags.Name }} in project: {{ ec2_info.instances[0].tags.project }} (ID: {{ instance_id }}) has stopped.
           The event was source from AWS CloudTrail and trigger by Event Driver Ansible.
         urgency: med
         impact: high
