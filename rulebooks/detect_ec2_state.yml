@@ -1,0 +1,18 @@
+---
+
+- name: Detect EC2 Shutdown
+  hosts: localhost
+
+  sources:
+    - ansible.eda.aws_cloudtrail:
+        access_key: "{{ aws_access_key_id }}"
+        secret_key: "{{ aws_secret_access_key }}"
+        region: 'us-east-2'
+
+  rules:
+    - name: Monitor StopInstances Events
+      condition: event.CloudTrailEvent.eventName == "StopInstances"
+      action:
+        run_job_template:
+          name: ec2_shutdown_actions
+          organization: Cloud_Team
