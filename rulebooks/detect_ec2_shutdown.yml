@@ -14,5 +14,5 @@
       condition: event.CloudTrailEvent.eventName == "StopInstances"
       action:
         run_job_template:
-          name: ec2_shutdown_actions
-          organization: Cloud_Team
+          name: "{{ job_template_name }}"
+          organization: "{{ organization }}"
