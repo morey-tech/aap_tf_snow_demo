@@ -16,3 +16,5 @@
         run_job_template:
           name: ec2_shutdown_actions
           organization: Cloud_Team
+          extra_vars:
+            ec2_event: "{{ event.CloudTrailEvent }}"
