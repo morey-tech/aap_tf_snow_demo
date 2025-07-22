@@ -6,9 +6,9 @@
   tasks:
 
     - name: Debug full event
-      debug:
+      ansible.builtin.debug:
         var: ec2_event
-        
+
     - name: Print event details
       ansible.builtin.debug:
         msg: "EC2 instance {{ ec2_event.requestParameters.instanceId }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
