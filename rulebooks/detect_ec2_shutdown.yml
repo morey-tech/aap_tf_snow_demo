@@ -15,4 +15,4 @@
       action:
         run_job_template:
           name: ec2_shutdown_actions
-          organization: Default
+          organization: Cloud_Team
