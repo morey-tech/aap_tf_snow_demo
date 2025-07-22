@@ -14,4 +14,4 @@
           name: snow_event_trigger
           organization: Cloud_Team
           extra_vars:
-            ansible_eda: "{{ event.payload.message }}"
+            message: "{{ event.payload.message }}"
