@@ -29,22 +29,6 @@
         var: ec2_info
 
 
-    - name: Extract tag "Name"
-      ansible.builtin.set_fact:
-        instance_name: >-
-          {{ ec2_info.instances[0].tags
-             | selectattr('key', 'equalto', 'Name')
-             | map(attribute='value')
-             | first | default('Name unkowned') }}
-
-    - name: Extract tag "project"
-      ansible.builtin.set_fact:
-        project_name: >-
-          {{ ec2_info.instances[0].tags
-             | selectattr('key', 'equalto', 'project')
-             | map(attribute='value')
-             | first | default('Project unkowned') }}
-
     - name: Create ServiceNow ticket
       servicenow.itsm.incident:
         username: "{{ servicenow_username }}"
@@ -54,7 +38,7 @@
         data:
           short_description: "The EC2 {{ instance_id }} was stopped"
           description: |
-            The EC2 {{ instance_name }} in project: {{ project_name }} (ID: {{ instance_id }}) has stopped.
+            The EC2 {{ ec2_info.instances[0].tags.Name }} in project: {{ project_nameec2_info.instances[0].tags.project }} (ID: {{ instance_id }}) has stopped.
             The event was source from AWS CloudTrail and trigger by Event Driver Ansible.
           urgency: 2
           impact: 2
