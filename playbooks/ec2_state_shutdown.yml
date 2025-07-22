@@ -11,4 +11,4 @@
 
     - name: Print event details
       ansible.builtin.debug:
-        msg: "EC2 instance {{ ansible_eda.event.CloudTrailEvent.requestParameters.instancesSet.items[0].instanceId }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
+        msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
