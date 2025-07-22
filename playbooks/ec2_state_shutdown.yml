@@ -3,19 +3,66 @@
 - name: Handle EC2 state Shutdown
   hosts: localhost
 
-  tasks:
+  vars:
+    instanceId: "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
+    region: us-east-2
 
+  tasks:
     - name: Debug full event
       ansible.builtin.debug:
         var: ansible_eda
 
-    # - name: Print event details
-    #   ansible.builtin.debug:
-    #     msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
+# - name: Print event details
+#   ansible.builtin.debug:
+#     msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
 
-    - name: Restart instance if stopped
-      amazon.aws.ec2_instance:
-        region: us-east-2
+    - name: Get EC2 instance information
+      amazon.aws.ec2_instance_info:
+        region: "{{ region }}"
         instance_ids:
-          - "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
-        state: running
+          - "{{ instanceId }}"
+      register: ec2_info
+
+    - name: Extract tag "Name"
+      set_fact:
+        instanceName: >-
+          {{ ec2_info.instances[0].tags
+             | selectattr('key', 'equalto', 'Name')
+             | map(attribute='value')
+             | first | default('Name unkowned') }}
+
+    - name: Extract tag "project"
+      set_fact:
+        projectName: >-
+          {{ ec2_info.instances[0].tags
+             | selectattr('key', 'equalto', 'project')
+             | map(attribute='value')
+             | first | default('Project unkowned') }}
+
+    - name: Create ServiceNow ticket
+      servicenow.itsm.now_record:
+        username: "{{ servicenow_username }}"
+        password: "{{ servicenow_password }}"
+        instance: "{{ servicenow_instance }}"
+        table: incident
+        data:
+          short_description: "The EC2 {{ instanceId }} was stopped"
+          description: |
+            The EC2 {{ instanceName }} in project: {{ projectName }} (ID: {{ instanceId }}) has stopped.
+            The event was source from AWS CloudTrail and trigger by Event Driver Ansible.
+          urgency: 2
+          impact: 2
+        validate_certs: false
+      register: servicenow_result
+
+    - name: Display the serviceNow ticket number
+      ansible.builtin.debug:
+        msg: "ServiceNow incident number: {{ servicenow_result.record.number }}"
+
+
+    # - name: Restart instance if stopped
+    #   amazon.aws.ec2_instance:
+    #     region: us-east-2
+    #     instance_ids:
+    #       - "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
+    #     state: running
