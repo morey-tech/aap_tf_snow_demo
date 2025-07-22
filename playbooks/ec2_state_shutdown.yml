@@ -4,7 +4,7 @@
   hosts: localhost
 
   vars:
-    instanceId: "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
+    instance_id: "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
     region: us-east-2
 
   tasks:
@@ -14,41 +14,42 @@
 
 # - name: Print event details
 #   ansible.builtin.debug:
-#     msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
+#     msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}
+# stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
 
     - name: Get EC2 instance information
       amazon.aws.ec2_instance_info:
         region: "{{ region }}"
         instance_ids:
-          - "{{ instanceId }}"
+          - "{{ instance_id }}"
       register: ec2_info
 
     - name: Extract tag "Name"
-      set_fact:
-        instanceName: >-
+      ansible.builtin.set_fact:
+        instance_name: >-
           {{ ec2_info.instances[0].tags
              | selectattr('key', 'equalto', 'Name')
              | map(attribute='value')
              | first | default('Name unkowned') }}
 
     - name: Extract tag "project"
-      set_fact:
-        projectName: >-
+      ansible.builtin.set_fact:
+        project_name: >-
           {{ ec2_info.instances[0].tags
              | selectattr('key', 'equalto', 'project')
              | map(attribute='value')
              | first | default('Project unkowned') }}
 
     - name: Create ServiceNow ticket
-      servicenow.itsm.now_record:
+      servicenow.itsm.incident:
         username: "{{ servicenow_username }}"
         password: "{{ servicenow_password }}"
         instance: "{{ servicenow_instance }}"
         table: incident
         data:
-          short_description: "The EC2 {{ instanceId }} was stopped"
+          short_description: "The EC2 {{ instance_id }} was stopped"
           description: |
-            The EC2 {{ instanceName }} in project: {{ projectName }} (ID: {{ instanceId }}) has stopped.
+            The EC2 {{ instance_name }} in project: {{ project_name }} (ID: {{ instance_id }}) has stopped.
             The event was source from AWS CloudTrail and trigger by Event Driver Ansible.
           urgency: 2
           impact: 2

@@ -4,7 +4,7 @@
   hosts: localhost
 
   vars:
-    instanceId: "c"
+    instance_id: "c"
     region: us-east-2
 
   tasks:
@@ -13,5 +13,5 @@
       amazon.aws.ec2_instance:
         region: "{{ region }}"
         instance_ids:
-          - "{{ instanceId }}"
+          - "{{ instance_id }}"
         state: running
