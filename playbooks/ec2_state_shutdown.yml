@@ -32,7 +32,7 @@
     - name: Create ServiceNow ticket
       servicenow.itsm.incident:
         instance:
-          host: "https://{{ lookup('env', 'SERVICENOW_PASSWORD') }}/api/now/table/incident"
+          host: "https://{{ lookup('env', 'SERVICENOW_INSTANCE') }}"
           username: "{{ lookup('env', 'SERVICENOW_USERNAME') }}"
           password: "{{ lookup('env', 'SERVICENOW_PASSWORD') }}"
         state: new
