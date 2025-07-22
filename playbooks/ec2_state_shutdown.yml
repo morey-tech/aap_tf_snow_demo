@@ -1,6 +1,6 @@
 ---
 
-- name: Handle EC2 instance shutdown
+- name: Handle EC2 state Shutdown
   hosts: localhost
 
   tasks:
@@ -9,6 +9,13 @@
       ansible.builtin.debug:
         var: ansible_eda
 
-    - name: Print event details
-      ansible.builtin.debug:
-        msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
+    # - name: Print event details
+    #   ansible.builtin.debug:
+    #     msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }} stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
+
+    - name: Restart instance if stopped
+      amazon.aws.ec2_instance:
+        region: us-east-2
+        instance_ids:
+          - "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
+        state: running
