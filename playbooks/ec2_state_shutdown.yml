@@ -24,6 +24,11 @@
           - "{{ instance_id }}"
       register: ec2_info
 
+    - name: Debug full ec2_info
+      ansible.builtin.debug:
+        var: ec2_info
+
+
     - name: Extract tag "Name"
       ansible.builtin.set_fact:
         instance_name: >-
