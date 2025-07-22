@@ -6,4 +6,4 @@
   tasks:
     - name: Show message from webhook
       ansible.builtin.debug:
-        msg: "Message reçu: {{ ansible_eda }}"
+        msg: "Message: {{ ansible_eda }}"
