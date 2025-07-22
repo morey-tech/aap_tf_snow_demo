@@ -1,0 +1,9 @@
+---
+- name: Handle Webhook Event
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Show message from webhook
+      ansible.builtin.debug:
+        msg: "Message reçu: {{ ansible_eda }}"

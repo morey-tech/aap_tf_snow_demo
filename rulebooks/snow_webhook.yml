@@ -1,0 +1,17 @@
+---
+- name: Service Now Webhook
+  hosts: localhost
+
+  sources:
+    - ansible.eda.webhook:
+        port: 5001
+
+  rules:
+    - name: Print webhook data
+      condition: event.payload.message is defined
+      action:
+        run_job_template:
+          name: snow_event_trigger
+          organization: Cloud_Team
+          extra_vars:
+            ansible_eda: "{{ event.payload.message }}"
