@@ -42,6 +42,7 @@
           The event was source from AWS CloudTrail and trigger by Event Driver Ansible.
         urgency: med
         impact: high
+        caller: EDA.froberge.demo
       register: servicenow_result
 
     - name: Display the serviceNow ticket number
