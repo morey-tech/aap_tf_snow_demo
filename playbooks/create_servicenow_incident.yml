@@ -4,7 +4,6 @@
   hosts: localhost
 
   vars:
-    instance_id: "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
     region: us-east-2
 
   tasks:
@@ -34,11 +33,3 @@
     - name: Display the serviceNow ticket number
       ansible.builtin.debug:
         msg: "ServiceNow incident number: {{ servicenow_result.record.number }}"
-
-
-    # - name: Restart instance if stopped
-    #   amazon.aws.ec2_instance:
-    #     region: us-east-2
-    #     instance_ids:
-    #       - "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
-    #     state: running

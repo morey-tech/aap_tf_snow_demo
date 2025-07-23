@@ -3,11 +3,7 @@
 - name: Restart an EC2 instance
   hosts: localhost
 
-  vars:
-    region: us-east-2
-
   tasks:
-
     - name: Restart instance if stopped
       amazon.aws.ec2_instance:
         region: "{{ region }}"

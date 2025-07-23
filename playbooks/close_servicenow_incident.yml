@@ -3,30 +3,14 @@
 - name: Close a ServiceNow Incident
   hosts: localhost
 
-  vars:
-    instance_id: "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
-    region: us-east-2
-
   tasks:
-    - name: Get EC2 instance information
-      amazon.aws.ec2_instance_info:
-        region: "{{ region }}"
-        instance_ids:
-          - "{{ instance_id }}"
-      register: ec2_info
-
-    - name: Create ServiceNow ticket
+    - name: Close incident
       servicenow.itsm.incident:
         instance:
           host: "https://{{ lookup('env', 'SERVICENOW_INSTANCE') }}"
           username: "{{ lookup('env', 'SERVICENOW_USERNAME') }}"
           password: "{{ lookup('env', 'SERVICENOW_PASSWORD') }}"
-        state: new
-        short_description: "The EC2 instance: {{ instance_id }} has stopped"
-        description: |
-          The EC2 {{ ec2_info.instances[0].tags.Name }} in project: {{ ec2_info.instances[0].tags.project }} (ID: {{ instance_id }}) has stopped.
-          The event was source from AWS CloudTrail and trigger by Event Driver Ansible.
-        urgency: med
-        impact: high
-        caller: froberge
-      register: servicenow_result
+        state: closed
+        number: "{{ snow_ticket_number }}"
+        close_code: "Solved (Permanently)"
+        close_notes: "The EC2 instance {{ instance_id }} was restarted using EDA"
