@@ -10,7 +10,7 @@
     - name: Call ServiceNow Workflow
       condition: event.payload.description is defined
       action:
-        run_job_template:
+        run_workflow_template:
           name: snow_event_workflow
           organization: Cloud_Team
           extra_vars:
