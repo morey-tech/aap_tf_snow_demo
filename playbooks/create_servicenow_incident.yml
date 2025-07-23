@@ -4,6 +4,7 @@
   hosts: localhost
 
   vars:
+    instance_id: "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
     region: us-east-2
 
   tasks:
