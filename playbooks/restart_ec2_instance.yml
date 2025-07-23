@@ -4,7 +4,6 @@
   hosts: localhost
 
   vars:
-    instance_id: "c"
     region: us-east-2
 
   tasks:

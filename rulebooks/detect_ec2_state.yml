@@ -1,6 +1,6 @@
 ---
 
-- name: Detect EC2 Shutdown
+- name: Detect EC2 state
   hosts: localhost
 
   sources:
@@ -14,7 +14,7 @@
       condition: event.CloudTrailEvent.eventName == "StopInstances"
       action:
         run_job_template:
-          name: ec2_shutdown_actions
+          name: create_servicenow_incident
           organization: Cloud_Team
           extra_vars:
             ansible_eda: "{{ event.CloudTrailEvent }}"

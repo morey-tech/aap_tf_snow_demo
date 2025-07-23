@@ -1,5 +1,5 @@
 ---
-- name: Service Now Webhook
+- name: ServiceNow Webhook trigger
   hosts: localhost
 
   sources:
@@ -7,11 +7,11 @@
         port: 5001
 
   rules:
-    - name: Print webhook data
+    - name: Call ServiceNow Workflow
       condition: event.payload.description is defined
       action:
         run_job_template:
-          name: snow_event_trigger
+          name: snow_event_workflow
           organization: Cloud_Team
           extra_vars:
             ansible_eda: "{{ event.payload.message }}"

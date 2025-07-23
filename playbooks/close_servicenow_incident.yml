@@ -1,6 +1,6 @@
 ---
 
-- name: Handle EC2 state Shutdown
+- name: Close a ServiceNow Incident
   hosts: localhost
 
   vars:
@@ -8,26 +8,12 @@
     region: us-east-2
 
   tasks:
-    - name: Debug full event
-      ansible.builtin.debug:
-        var: ansible_eda
-
-# - name: Print event details
-#   ansible.builtin.debug:
-#     msg: "EC2 instance {{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}
-# stopped at {{ ansible_eda.event.CloudTrailEvent.eventTime }}"
-
     - name: Get EC2 instance information
       amazon.aws.ec2_instance_info:
         region: "{{ region }}"
         instance_ids:
           - "{{ instance_id }}"
       register: ec2_info
-
-    - name: Debug full ec2_info
-      ansible.builtin.debug:
-        var: ec2_info
-
 
     - name: Create ServiceNow ticket
       servicenow.itsm.incident:
@@ -44,15 +30,3 @@
         impact: high
         caller: froberge
       register: servicenow_result
-
-    - name: Display the serviceNow ticket number
-      ansible.builtin.debug:
-        msg: "ServiceNow incident number: {{ servicenow_result.record.number }}"
-
-
-    # - name: Restart instance if stopped
-    #   amazon.aws.ec2_instance:
-    #     region: us-east-2
-    #     instance_ids:
-    #       - "{{ ansible_eda['event']['CloudTrailEvent']['requestParameters']['instancesSet']['items'][0]['instanceId'] }}"
-    #     state: running

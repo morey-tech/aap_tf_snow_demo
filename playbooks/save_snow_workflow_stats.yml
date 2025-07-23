@@ -1,0 +1,10 @@
+---
+- name: Save the different variable used in the ServiceNow workflow
+  hosts: all
+
+  tasks:
+    - name: Save the value for the workflow for later use
+      ansible.builtin.set_stats:
+        data:
+          instance_id: "{{ ansible_eda.event.payload.description | regex_search('i-[a-zA-Z0-9]+') }}"
+          snow_ticket_number: "{{ ansible_eda.event.payload.number }}"
