@@ -1,6 +1,6 @@
 ---
 - name: Save the different variable used in the ServiceNow workflow
-  hosts: all
+  hosts: localhost
 
   tasks:
     - name: Save the value for the workflow for later use
