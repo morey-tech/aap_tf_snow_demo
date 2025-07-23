@@ -13,8 +13,9 @@
     - name: Monitor StopInstances Events
       condition: event.CloudTrailEvent.eventName == "StopInstances"
       action:
-        run_job_template:
+        run_workflow_template :
           name: create_servicenow_incident
           organization: Cloud_Team
-          extra_vars:
-            ansible_eda: "{{ event.CloudTrailEvent }}"
+          job_args:
+            extra_vars:
+              ansible_eda: "{{ event.CloudTrailEvent }}"
