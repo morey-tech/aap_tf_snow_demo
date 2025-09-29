@@ -11,7 +11,7 @@
 
     - name: Provision or deprovision the infra with Terraform
       cloud.terraform.terraform:
-        project_path: "{{ git_work_dir }}"
+        project_path: "{{ git_work_dir }}/terraform/aws"
         # For a destroy we need this to be absent and false
         state: "{{ infra_state }}"
         force_init: "{{ force_init }}"
