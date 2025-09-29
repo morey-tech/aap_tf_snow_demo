@@ -2,19 +2,46 @@
 - name: Provision VM in AWS with Terraform
   hosts: localhost
 
-  roles:
-    - role: terraform-vm-provisioning
-      vars:
-        infra_state: "{{ infra_state }}"
+  tasks:
+    - name: Git checkout the terraform code
+      ansible.builtin.git:
+        repo: "{{ git_repo_url }}"
+        dest: /tmp/terraform
+        version: main
+
+    - name: Provision or deprovision the infra with Terraform
+      cloud.terraform.terraform:
+        project_path: "{{ git_work_dir }}"
+        # For a destroy we need this to be absent and false
+        state: "{{ infra_state }}"
         force_init: "{{ force_init }}"
-        server_count: "{{ server_count }}"
-        prefix_instance_name: "{{ instance_name }}"
-        instance_env: "{{ instance_env }}"
-        project_name: "{{ project_name }}"
-        git_user: '{{ lookup("env", "git_user") }}'
-        git_token: '{{ lookup("env", "git_token") }}'
-        git_repo_url: "{{ git_repo_url }}"
-        git_work_dir: "{{ git_work_dir }}"
-        pah_pass: '{{ lookup("env", "pah_pass") }}'
-        git_name: "AAP service account"
-        git_email: "cloudAutomation_aap@company.com"
+        variables:
+          webserver_count: "{{ server_count }}"
+          instance_name_lb: "{{ prefix_instance_name }}_lb"
+          instance_name_webserver: "{{ prefix_instance_name }}_web"
+          instance_env: "{{ instance_env }}"
+          project_name: "{{ project_name }}"
+        backend_config:
+          s3: "{{ tf_backend_s3 }}"
+          region: "{{ tf_backend_region }}"
+          bucket: "{{ tf_backend_bucket }}"
+          access_key: "{{ tf_backend_access_key }}"
+          secret_key: "{{ tf_backend_secret_key }}"
+      register: terraformInfra
+
+  # roles:
+  #   - role: terraform-vm-provisioning
+  #     vars:
+  #       infra_state: "{{ infra_state }}"
+  #       force_init: "{{ force_init }}"
+  #       server_count: "{{ server_count }}"
+  #       prefix_instance_name: "{{ instance_name }}"
+  #       instance_env: "{{ instance_env }}"
+  #       project_name: "{{ project_name }}"
+  #       git_user: '{{ lookup("env", "git_user") }}'
+  #       git_token: '{{ lookup("env", "git_token") }}'
+  #       git_repo_url: "{{ git_repo_url }}"
+  #       git_work_dir: "{{ git_work_dir }}"
+  #       pah_pass: '{{ lookup("env", "pah_pass") }}'
+  #       git_name: "AAP service account"
+  #       git_email: "cloudAutomation_aap@company.com"
