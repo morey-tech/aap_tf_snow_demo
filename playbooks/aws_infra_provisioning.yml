@@ -6,12 +6,12 @@
     - name: Git checkout the terraform code
       ansible.builtin.git:
         repo: "{{ git_repo_url }}"
-        dest: /tmp/terraform
+        dest: /tmp/aap_tf_snow_demo
         version: main
 
     - name: Provision or deprovision the infra with Terraform
       cloud.terraform.terraform:
-        project_path: "{{ git_work_dir }}/terraform/aws"
+        project_path: "/tmp/aap_tf_snow_demo/terraform/aws"
         # For a destroy we need this to be absent and false
         state: "{{ infra_state }}"
         force_init: "{{ force_init }}"
