@@ -8,6 +8,7 @@
         repo: "{{ git_repo_url }}"
         dest: /tmp/aap_tf_snow_demo
         version: main
+      check_mode: false
 
     - name: Provision or deprovision the infra with Terraform
       cloud.terraform.terraform:
@@ -38,20 +39,3 @@
           skip_requesting_account_id: "true"
           use_path_style: "true"
       register: terraformInfra
-
-  # roles:
-  #   - role: terraform-vm-provisioning
-  #     vars:
-  #       infra_state: "{{ infra_state }}"
-  #       force_init: "{{ force_init }}"
-  #       server_count: "{{ server_count }}"
-  #       prefix_instance_name: "{{ instance_name }}"
-  #       instance_env: "{{ instance_env }}"
-  #       project_name: "{{ project_name }}"
-  #       git_user: '{{ lookup("env", "git_user") }}'
-  #       git_token: '{{ lookup("env", "git_token") }}'
-  #       git_repo_url: "{{ git_repo_url }}"
-  #       git_work_dir: "{{ git_work_dir }}"
-  #       pah_pass: '{{ lookup("env", "pah_pass") }}'
-  #       git_name: "AAP service account"
-  #       git_email: "cloudAutomation_aap@company.com"
