@@ -25,6 +25,7 @@
           project_name: "{{ project_name }}"
         backend_config:
           endpoints: "{s3 = \"https://{{ tf_backend_s3 }}\"}"
+          insecure: "true"
           region: "{{ tf_backend_region }}"
           bucket: "{{ tf_backend_bucket }}"
           key: "{{ tf_backend_bucket_object_key }}"
