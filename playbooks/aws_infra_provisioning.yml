@@ -24,7 +24,7 @@
           instance_name_webserver: "{{ project_name }}_web"
           project_name: "{{ project_name }}"
         backend_config:
-          endpoints: "{s3 = https://{{ tf_backend_s3 }},}"
+          endpoints: "{s3 = \"https://{{ tf_backend_s3 }}\"}"
           # endpoints: "{s3 = https://{{ tf_backend_s3 }}}"  ## Expected a newline or comma to mark the beginning of the next attribute.
           ## -backend-config="endpoints={s3 = s3.openshift-storage.svc:443,}"
           # endpoints[s3]: "https://{{ tf_backend_s3 }}"  ## The backend configuration argument "endpoints[s3]" given on the command line is not expected for the selected backend type.
