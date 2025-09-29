@@ -8,7 +8,8 @@
         repo: "{{ git_repo_url }}"
         dest: /tmp/aap_tf_snow_demo
         version: main
-      check_mode: false
+      check_mode: false  # terraform module needed even in check mode.
+      changed_when: false # Checking out the git repo does not change anything.
 
     - name: Provision or deprovision the infra with Terraform
       cloud.terraform.terraform:
