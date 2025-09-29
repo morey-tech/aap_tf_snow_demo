@@ -1,10 +1,7 @@
 terraform {
-  # backend "s3" {
-  #   bucket = "" 
-  #   key    = ""
-  #   region = ""
-  #   profile= ""
-  # }
+  backend "s3" {
+    # Defined at runtime.
+  }
  required_providers {
    aws = {
      source  = "hashicorp/aws"
