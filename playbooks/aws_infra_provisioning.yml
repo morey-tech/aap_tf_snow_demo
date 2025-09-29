@@ -24,7 +24,8 @@
           instance_name_webserver: "{{ project_name }}_web"
           project_name: "{{ project_name }}"
         backend_config:
-          endpoints: "{s3 = {{ tf_backend_s3 }}}"
+          # endpoints: "{s3 = https://{{ tf_backend_s3 }}}"
+          endpoints[s3]: "https://{{ tf_backend_s3 }}"
           region: "{{ tf_backend_region }}"
           bucket: "{{ tf_backend_bucket }}"
           access_key: "{{ tf_backend_access_key }}"
