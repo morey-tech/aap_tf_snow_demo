@@ -1,11 +1,11 @@
 ---
 - name: Configure firewalld to allow specific TCP ports on WebServers
   hosts: all
-  become: yes
+  become: true
 
   tasks:
     - name: Ensure firewalld is installed
-      ansible.builtin.yum:
+      ansible.builtin.package:
         name: firewalld
         state: present
 
@@ -13,28 +13,30 @@
       ansible.builtin.service:
         name: firewalld
         state: started
-        enabled: yes
+        enabled: true
 
     - name: Allow TCP port 80
-      firewalld:
+      ansible.posix.firewalld:
         service: http
-        permanent: yes
+        permanent: true
         state: enabled
-        immediate: yes
+        immediate: true
 
     - name: Allow TCP port 8080
-      firewalld:
+      ansible.posix.firewalld:
         port: 8080/tcp
-        permanent: yes
+        permanent: true
         state: enabled
-        immediate: yes
+        immediate: true
 
     - name: Allow TCP port 443
-      firewalld:
+      ansible.posix.firewalld:
         service: https
-        permanent: yes
+        permanent: true
         state: enabled
-        immediate: yes
+        immediate: true
 
-    - name: Reload firewalld to apply permanent rules
-      ansible.builtin.command: firewall-cmd --reload
+    - name: Reload firewalld service
+      ansible.builtin.service:
+        name: firewalld
+        state: reloaded

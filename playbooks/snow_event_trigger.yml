@@ -7,7 +7,6 @@
     instance_id: "{{ ansible_eda.event.payload.description | regex_search('i-[a-zA-Z0-9]+') }}"
     snow_ticket_number: "{{ ansible_eda.event.payload.number }}"
 
-
   tasks:
     - name: Show message from webhook
       ansible.builtin.debug:
