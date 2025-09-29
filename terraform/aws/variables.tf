@@ -35,5 +35,7 @@ variable "ami" {
 
 variable "key_instance_name" {
   type = string
-  default = "ansible_terraform_demo"
+  default = "AAP TF SNow Demo"
+  description = "Key name of the Key Pair to use for the instance."
+  # https://us-east-2.console.aws.amazon.com/ec2/home?region=us-east-2#KeyPairs:
 }
