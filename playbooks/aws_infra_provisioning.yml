@@ -25,12 +25,9 @@
           project_name: "{{ project_name }}"
         backend_config:
           endpoints: "{s3 = \"https://{{ tf_backend_s3 }}\"}"
-          # endpoints: "{s3 = https://{{ tf_backend_s3 }}}"  ## Expected a newline or comma to mark the beginning of the next attribute.
-          ## -backend-config="endpoints={s3 = s3.openshift-storage.svc:443,}"
-          # endpoints[s3]: "https://{{ tf_backend_s3 }}"  ## The backend configuration argument "endpoints[s3]" given on the command line is not expected for the selected backend type.
-          ##  -backend-config 'endpoints[s3]=https://s3.openshift-storage.svc:443'
           region: "{{ tf_backend_region }}"
           bucket: "{{ tf_backend_bucket }}"
+          key: "{{ tf_backend_bucket_object_key }}"
           access_key: "{{ tf_backend_access_key }}"
           secret_key: "{{ tf_backend_secret_key }}"
       register: terraformInfra
