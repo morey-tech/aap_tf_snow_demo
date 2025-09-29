@@ -94,7 +94,7 @@ resource "aws_instance" "loadbalancer" {
   key_name = var.key_instance_name
   associate_public_ip_address = true
   subnet_id = aws_subnet.main.id
-  security_groups = [aws_security_group.allow_traffic.id]
+  vpc_security_group_ids = [aws_security_group.allow_traffic.id]
   tags ={
       Name = var.instance_name_lb,
       Owner = "nmorey",
@@ -112,7 +112,7 @@ resource "aws_instance" "webserver" {
   key_name = var.key_instance_name
   associate_public_ip_address = true
   subnet_id = aws_subnet.main.id
-  security_groups = [aws_security_group.allow_traffic.id]
+  vpc_security_group_ids = [aws_security_group.allow_traffic.id]
   tags ={
       Name = "${var.instance_name_webserver}_${count.index}",
       Owner = "nmorey",
