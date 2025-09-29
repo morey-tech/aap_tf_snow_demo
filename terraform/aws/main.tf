@@ -97,10 +97,10 @@ resource "aws_instance" "loadbalancer" {
   security_groups = [aws_security_group.allow_traffic.id]
   tags ={
       Name = var.instance_name_lb,
-      Owner = "froberge",
-      type =  "${var.instance_env}_lb",
+      Owner = "nmorey",
+      type =  "${var.project_name}_lb",
       project =  var.project_name
-      provider: "AWS"
+      provider: "aws"
     }
 }
 
@@ -115,8 +115,8 @@ resource "aws_instance" "webserver" {
   security_groups = [aws_security_group.allow_traffic.id]
   tags ={
       Name = "${var.instance_name_webserver}_${count.index}",
-      Owner = "froberge",
-      type =  "${var.instance_env}_web",
+      Owner = "nmorey",
+      type =  "${var.project_name}_web",
       project =  var.project_name
       provider: "aws"
     }

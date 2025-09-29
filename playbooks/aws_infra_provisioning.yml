@@ -19,7 +19,6 @@
           webserver_count: "{{ server_count }}"
           instance_name_lb: "{{ project_name }}_lb"
           instance_name_webserver: "{{ project_name }}_web"
-          instance_env: "{{ instance_env }}"
           project_name: "{{ project_name }}"
         backend_config:
           s3: "{{ tf_backend_s3 }}"
