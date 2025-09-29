@@ -1,6 +1,0 @@
----
-- name: Provision VM in Azure with Ansible
-  hosts: localhost
-
-  roles:
-    - role: azure-vm-provisioning

@@ -1,6 +1,0 @@
----
-- name: Configure Azure Resource group with Ansible
-  hosts: localhost
-
-  roles:
-    - role: azure-rg-config
