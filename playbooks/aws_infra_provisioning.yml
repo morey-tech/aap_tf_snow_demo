@@ -30,6 +30,11 @@
           key: "{{ tf_backend_bucket_object_key }}"
           access_key: "{{ tf_backend_access_key }}"
           secret_key: "{{ tf_backend_secret_key }}"
+          # For use with non-AWS, but S3 compatible, object storage.
+          skip_region_validation: true
+          skip_credentials_validation: true
+          skip_metadata_api_check: true
+          force_path_style: true
       register: terraformInfra
 
   # roles:
