@@ -11,7 +11,7 @@
       condition: event.payload.description is defined
       action:
         run_workflow_template:
-          name: snow_event_workflow
-          organization: Cloud_Team
+          name: AWS Terraform Demo
+          organization: AAP TF SNow Demo
           extra_vars:
             ansible_eda: "{{ event.payload.message }}"
