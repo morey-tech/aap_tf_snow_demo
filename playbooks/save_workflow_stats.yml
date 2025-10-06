@@ -4,10 +4,13 @@
   gather_facts: false
 
   tasks:
+    - name: Sanitize project name
+      ansible.builtin.set_fact:
+        sanitized_project_name: "{{ project_name | lower | regex_replace('[^a-z0-9]', '_') | trim('_') }}"
+
     - name: Set global workflow variables
       ansible.builtin.set_stats:
         data:
-          sanitized_project_name: "{{ project_name | lower | regex_replace('[^a-z0-9]', '_') | trim('_') }}"
           project_name: "{{ sanitized_project_name }}"
           itsm_request_id: "{{ request_id }}"
           # Group names derived from AWS instance tags based on project_name.
