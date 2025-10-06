@@ -13,6 +13,6 @@
         run_workflow_template:
           name: AWS Terraform Demo
           organization: AAP TF SNow Demo
-          # job_args:
-          #   extra_vars:
-          #     instance_name: "{{ event.payload.description }}"
+          job_args:
+            extra_vars:
+              request_id: "{{ event.payload.extra_vars.request_id }}"
