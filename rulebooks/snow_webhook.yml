@@ -16,3 +16,6 @@
           job_args:
             extra_vars:
               request_id: "{{ event.payload.request_id }}"
+              infra_state: "{{ event.payload.infra_state }}"
+              server_count: "{{ event.payload.server_count }}"
+              project_name: "{{ event.payload.project_name }}"
