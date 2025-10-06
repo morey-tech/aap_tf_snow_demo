@@ -16,5 +16,5 @@
   roles:
     - role: haproxy-config
       vars:
-        lb_group_name: "{{ lb_group_name }}"
-        ws_group_name: "{{ ws_group_name }}"
+        lb_group_name: "{{ project_name }}_lb"
+        ws_group_name: "{{ project_name }}_web"
