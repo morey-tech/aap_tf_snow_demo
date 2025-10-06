@@ -1,6 +1,7 @@
 ---
 - name: Save Global Workflow Variables
   hosts: all
+  gather_facts: false
 
   tasks:
     - name: Set global workflow variables
