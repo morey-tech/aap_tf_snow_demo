@@ -8,10 +8,11 @@
 
   rules:
     - name: Call ServiceNow Workflow
-      condition: event.payload.description is defined
+      condition: event.meta.headers is defined
       action:
         run_workflow_template:
           name: AWS Terraform Demo
           organization: AAP TF SNow Demo
-          extra_vars: {}
-            # ansible_eda: "{{ event.payload.message }}"
+          # job_args:
+          #   extra_vars:
+          #     instance_name: "{{ event.payload.description }}"
