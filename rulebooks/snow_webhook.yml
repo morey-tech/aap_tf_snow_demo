@@ -15,4 +15,4 @@
           organization: AAP TF SNow Demo
           job_args:
             extra_vars:
-              request_id: "{{ event.payload.extra_vars.request_id }}"
+              request_id: "{{ event.payload.request_id }}"
