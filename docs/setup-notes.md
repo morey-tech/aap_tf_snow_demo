@@ -60,3 +60,53 @@ Create AWS dynamic inventory
 ![Image](./setup-images/6-aap-aws-dynamic-inventory.png)
 ---
 
+EDA Setup
+
+Create a project 
+![Image](./setup-images/aap-eda-project-create.png)
+
+Create a user for EDA
+- https://aap-aap.apps.ocp-mgmt.rh-lab.morey.tech/access/users/create
+
+![Image](./setup-images/aap-eda-user-create.png)
+
+Create credential for EDA to connect to automation controller
+- https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/using_automation_decisions/eda-set-up-rhaap-credential-type
+
+![Image](./setup-images/aap-eda-cred-create.png)
+
+Create decision environment
+- https://aap-aap.apps.ocp-mgmt.rh-lab.morey.tech/decisions/decision-environments/create
+
+create rule book
+
+added route for rulebook (activiation job) service
+
+curl it
+```
+curl -H "Content-Type: application/json" -X POST https://servicenow-webhook-aap.apps.ocp-mgmt.rh-lab.morey.tech/ -d '{"description": "Your description here"}' --insecure
+```
+---
+
+## ServiceNow Set Up
+
+Business Rule - Trigger based on changes in tables
+- https://xxxxxxx.service-now.com/now/nav/ui/classic/params/target/sys_script_list.do
+- Create a table for the purpose of the demo
+- The business rule calls the `RESTMessage` object
+
+
+REST Message
+- https://xxxxxxx.service-now.com/now/nav/ui/classic/params/target/sys_rest_message.do
+
+https://xxxxxxx.service-now.com/x_rhtpp_nmorey_a_0_virtual_machine_requests.do?sys_id=-1&sysparm_view=Default%20view&sysparm_view_forced=true
+
+https://ven05434.service-now.com/now/nav/ui/classic/params/target/sys_db_object.do%3Fsys_id%3Dea6f53afc3187a10b1876c0fb0013178%26sysparm_record_target%3Dsys_db_object%26sysparm_record_row%3D2%26sysparm_record_rows%3D2%26sysparm_record_list%3Dsys_scope%253D673a1caec3983610b1876c0fb001311a%255EORDERBYname
+
+https://ven05434.service-now.com/x_rhtpp_nmorey_a_0_web_server_requests.do?sys_id=-1&sysparm_view=Default%20view&sysparm_view_forced=true
+
+```
+{
+    "extra_vars": "{\"infra_state\": \"${infra_state}\", \"request_id\": \"${request_id}\",\"server_count\": \"${server_count}\",\"project_name\": \"${project_name}\"}"
+}
+```
