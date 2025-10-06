@@ -3,18 +3,6 @@
   hosts: all
 
   tasks:
-    - name: Print request_id
+    - name: Print ServiceNow request_id
       ansible.builtin.debug:
-        msg: '{{ itsm_request_id }}'
-
-    - name: Print response_url
-      ansible.builtin.debug:
-        msg: '{{ response_url }}'
-
-    - name: Print response_hostnames
-      ansible.builtin.debug:
-        msg: '{{ response_hostnames }}'
-
-    - name: Print response_status
-      ansible.builtin.debug:
-        msg: '{{ response_status }}'
+        msg: '{{ request_id }}'

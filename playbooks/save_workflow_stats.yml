@@ -1,17 +1,13 @@
 ---
-- name: Save the different variable used in the workflow
+- name: Save Global Workflow Variables
   hosts: all
 
   tasks:
-    - name: Save the value for the workflow for later use
+    - name: Set global workflow variables
       ansible.builtin.set_stats:
         data:
-          infra_state: "{{ infra_state }}"
-          force_init: "{{ force_init }}"
-          server_count: "{{ server_count }}"
-          prefix_instance_name: "{{ instance_name }}"
-          instance_env: "{{ instance_env }}"
-          project_name: "RHUG_ServiceNow_Ansible_Terraform_Demo"
+          project_name: "{{ project_name | lower | regex_replace('[^a-z0-9-]', '-') | trim('-') }}"
           itsm_request_id: "{{ request_id }}"
-          lb_group_name: "tag_{{ instance_env }}_lb"
-          ws_group_name: "tag_{{ instance_env }}_web"
+          # Group names derived from AWS instance tags based on project_name.
+          lb_group_name: "tag_{{ project_name | lower | regex_replace('[^a-z0-9-]', '-') | trim('-') }}_lb"
+          ws_group_name: "tag_{{ project_name | lower | regex_replace('[^a-z0-9-]', '-') | trim('-') }}_web"
