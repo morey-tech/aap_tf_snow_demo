@@ -1,125 +1,128 @@
 ---
 # tasks file for jboss-eap-install
-- name: Install JBoss Requirements
-  ansible.builtin.dnf:
-    name: java-1.8.0-openjdk-devel, unzip, initscripts, hostname
-    state: present
+- name: Configure JBoss EAP Server
+  become: true
+  block:
+    - name: Install JBoss Requirements
+      ansible.builtin.dnf:
+        name: java-1.8.0-openjdk-devel, unzip, initscripts, hostname
+        state: present
 
-- name: Check if service exists
-  ansible.builtin.stat:
-    path: '/etc/init.d/jboss-eap-rhel.sh'
-  register: service_status
+    - name: Check if service exists
+      ansible.builtin.stat:
+        path: '/etc/init.d/jboss-eap-rhel.sh'
+      register: service_status
 
-- name: Ensure EAP service is stopped
-  when: service_status.stat.exists
-  failed_when: false
-  ansible.builtin.service:
-    name: jboss-eap-rhel
-    state: stopped
+    - name: Ensure EAP service is stopped
+      when: service_status.stat.exists
+      failed_when: false
+      ansible.builtin.service:
+        name: jboss-eap-rhel
+        state: stopped
 
-- name: Create JBoss EAP Group
-  ansible.builtin.group:
-    name: "{{ jboss_eap_group }}"
-    system: true
-    state: present
-    gid: "{{ jboss_eap_group_gid | default('400') }}"
+    - name: Create JBoss EAP Group
+      ansible.builtin.group:
+        name: "{{ jboss_eap_group }}"
+        system: true
+        state: present
+        gid: "{{ jboss_eap_group_gid | default('400') }}"
 
-- name: Create JBoss EAP User
-  ansible.builtin.user:
-    name: "{{ jboss_eap_user }}"
-    comment: "JBoss EAP User"
-    uid: "{{ jboss_eap_user_uid | default('400') }}"
-    group: "{{ jboss_eap_group }}"
-    home: "{{ eap_deploy_dir }}"
+    - name: Create JBoss EAP User
+      ansible.builtin.user:
+        name: "{{ jboss_eap_user }}"
+        comment: "JBoss EAP User"
+        uid: "{{ jboss_eap_user_uid | default('400') }}"
+        group: "{{ jboss_eap_group }}"
+        home: "{{ eap_deploy_dir }}"
 
-- name: Clean EAP directory
-  ansible.builtin.file:
-    state: absent
-    path: "{{ eap_home }}"
+    - name: Clean EAP directory
+      ansible.builtin.file:
+        state: absent
+        path: "{{ eap_home }}"
 
-- name: Remove EAP directories (for different versions)
-  ansible.builtin.file:
-    state: absent
-    path: "{{ eap_all }}"
+    - name: Remove EAP directories (for different versions)
+      ansible.builtin.file:
+        state: absent
+        path: "{{ eap_all }}"
 
-- name: "Obtains JBoss repository"
-  ansible.builtin.get_url:
-    url: "{{ eap_link }}"
-    dest: "{{ eap_deploy_dir }}"
-    mode: '0644'
+    - name: "Obtains JBoss repository"
+      ansible.builtin.get_url:
+        url: "{{ eap_link }}"
+        dest: "{{ eap_deploy_dir }}"
+        mode: '0644'
 
-- name: Unarchive EAP
-  ansible.builtin.unarchive:
-    src: "{{ eap_deploy_dir }}/{{ eap_archive }}"
-    dest: "{{ eap_deploy_dir }}"
-    owner: "{{ jboss_eap_user }}"
-    group: "{{ jboss_eap_group }}"
-    remote_src: true
+    - name: Unarchive EAP
+      ansible.builtin.unarchive:
+        src: "{{ eap_deploy_dir }}/{{ eap_archive }}"
+        dest: "{{ eap_deploy_dir }}"
+        owner: "{{ jboss_eap_user }}"
+        group: "{{ jboss_eap_group }}"
+        remote_src: true
 
-- name: Clear JBoss Zip File
-  ansible.builtin.file:
-    state: absent
-    path: "{{ eap_deploy_dir }}/{{ eap_archive }}"
+    - name: Clear JBoss Zip File
+      ansible.builtin.file:
+        state: absent
+        path: "{{ eap_deploy_dir }}/{{ eap_archive }}"
 
-- name: Create symlink
-  ansible.builtin.file:
-    src: "{{ eap_home }}"
-    dest: "/opt/jboss-eap"
-    state: link
+    - name: Create symlink
+      ansible.builtin.file:
+        src: "{{ eap_home }}"
+        dest: "/opt/jboss-eap"
+        state: link
 
-- name: Modify JBoss EAP Configuration File
-  ansible.builtin.lineinfile:
-    state: present
-    path: "{{ eap_home }}/bin/init.d/jboss-eap.conf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items:
-    - {regexp: "^# JBOSS_USER=", line: "JBOSS_USER=jboss-eap"}
-    - {regexp: "^# JBOSS_CONFIG=", line: "JBOSS_CONFIG=standalone-ha.xml"}
-    - {regexp: "^# JBOSS_OPTS=", line: "JBOSS_OPTS=\"-b 0.0.0.0 -bprivate `hostname -i` -Djboss.node.name={{ inventory_hostname }}\""}
-    - {regexp: "^# JBOSS_ID=", line: "JBOSS_ID=jboss"}
+    - name: Modify JBoss EAP Configuration File
+      ansible.builtin.lineinfile:
+        state: present
+        path: "{{ eap_home }}/bin/init.d/jboss-eap.conf"
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - {regexp: "^# JBOSS_USER=", line: "JBOSS_USER=jboss-eap"}
+        - {regexp: "^# JBOSS_CONFIG=", line: "JBOSS_CONFIG=standalone-ha.xml"}
+        - {regexp: "^# JBOSS_OPTS=", line: "JBOSS_OPTS=\"-b 0.0.0.0 -bprivate `hostname -i` -Djboss.node.name={{ inventory_hostname }}\""}
+        - {regexp: "^# JBOSS_ID=", line: "JBOSS_ID=jboss"}
 
-- name: Copy JBoss Service Configuration File
-  ansible.builtin.copy:
-    src: "{{ eap_home }}/bin/init.d/jboss-eap.conf"
-    dest: "{{ jboss_eap_service_conf_dir }}/"
-    remote_src: true
-    owner: "{{ jboss_eap_user }}"
-    group: "{{ jboss_eap_group }}"
-    mode: "0644"
+    - name: Copy JBoss Service Configuration File
+      ansible.builtin.copy:
+        src: "{{ eap_home }}/bin/init.d/jboss-eap.conf"
+        dest: "{{ jboss_eap_service_conf_dir }}/"
+        remote_src: true
+        owner: "{{ jboss_eap_user }}"
+        group: "{{ jboss_eap_group }}"
+        mode: "0644"
 
-- name: Copy JBoss EAP Service File
-  ansible.builtin.copy:
-    src: "{{ eap_home }}/bin/init.d/jboss-eap-rhel.sh"
-    dest: "{{ rhel_initd }}"
-    remote_src: true
-    owner: "{{ jboss_eap_user }}"
-    group: "{{ jboss_eap_group }}"
-    mode: "0755"
+    - name: Copy JBoss EAP Service File
+      ansible.builtin.copy:
+        src: "{{ eap_home }}/bin/init.d/jboss-eap-rhel.sh"
+        dest: "{{ rhel_initd }}"
+        remote_src: true
+        owner: "{{ jboss_eap_user }}"
+        group: "{{ jboss_eap_group }}"
+        mode: "0755"
 
-- name: Enable EAP service
-  ansible.builtin.service:
-    name: jboss-eap-rhel.sh
-    enabled: true
+    - name: Enable EAP service
+      ansible.builtin.service:
+        name: jboss-eap-rhel.sh
+        enabled: true
 
-- name: Start EAP service
-  ansible.builtin.service:
-    name: jboss-eap-rhel
-    state: started
+    - name: Start EAP service
+      ansible.builtin.service:
+        name: jboss-eap-rhel
+        state: started
 
-- name: Create Admin Users froberge on each application
-  ansible.builtin.command: "sh {{ eap_home }}/bin/add-user.sh nmorey password"
+    - name: Create Admin Users froberge on each application
+      ansible.builtin.command: "sh {{ eap_home }}/bin/add-user.sh nmorey password"
 
-- name: Ensures webapp War file has been retrieved from the url
-  ansible.builtin.get_url:
-    url: "{{ app_url }}"
-    dest: "{{ eap_deploy_dir }}"
-    mode: '0644'
+    - name: Ensures webapp War file has been retrieved from the url
+      ansible.builtin.get_url:
+        url: "{{ app_url }}"
+        dest: "{{ eap_deploy_dir }}"
+        mode: '0644'
 
-- name: Deploy the war file on each standalone server (replace if deployed)
-  ansible.builtin.command: "sh {{ eap_home }}/bin/jboss-cli.sh -u=froberge -p=password --controller=localhost:9990 --connect --command='deploy {{ eap_deploy_dir }}/{{ app_name }} --force'"
+    - name: Deploy the war file on each standalone server (replace if deployed)
+      ansible.builtin.command: "sh {{ eap_home }}/bin/jboss-cli.sh -u=froberge -p=password --controller=localhost:9990 --connect --command='deploy {{ eap_deploy_dir }}/{{ app_name }} --force'"
 
-- name: Clear JBoss Zip File
-  ansible.builtin.file:
-    state: absent
-    dest: "{{ eap_deploy_dir }}/{{ app_name }}"
+    - name: Clear JBoss Zip File
+      ansible.builtin.file:
+        state: absent
+        dest: "{{ eap_deploy_dir }}/{{ app_name }}"

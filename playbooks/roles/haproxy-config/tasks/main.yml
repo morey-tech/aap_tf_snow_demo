@@ -1,7 +1,6 @@
 ---
 # tasks file for haproxy-config
 - name: Configure HA Load Balancer with haproxy
-  when: "lb_group_name in group_names"
   become: true
   block:
       # epel = Extra Packages for Enterprise Linux
