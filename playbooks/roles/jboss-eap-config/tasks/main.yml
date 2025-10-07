@@ -110,7 +110,7 @@
         name: jboss-eap-rhel
         state: started
 
-    - name: Create Admin Users froberge on each application
+    - name: Create Admin Users nmorey on each application
       ansible.builtin.command: "sh {{ eap_home }}/bin/add-user.sh nmorey password"
 
     - name: Ensures webapp War file has been retrieved from the url
@@ -120,7 +120,7 @@
         mode: '0644'
 
     - name: Deploy the war file on each standalone server (replace if deployed)
-      ansible.builtin.command: "sh {{ eap_home }}/bin/jboss-cli.sh -u=froberge -p=password --controller=localhost:9990 --connect --command='deploy {{ eap_deploy_dir }}/{{ app_name }} --force'"
+      ansible.builtin.command: "sh {{ eap_home }}/bin/jboss-cli.sh -u=nmorey -p=password --controller=localhost:9990 --connect --command='deploy {{ eap_deploy_dir }}/{{ app_name }} --force'"
 
     - name: Clear JBoss Zip File
       ansible.builtin.file:
