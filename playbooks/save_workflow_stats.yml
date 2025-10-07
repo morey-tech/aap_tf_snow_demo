@@ -1,6 +1,6 @@
 ---
 - name: Save Global Workflow Variables
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   tasks:
